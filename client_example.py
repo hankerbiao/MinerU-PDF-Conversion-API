@@ -61,6 +61,34 @@ class MinerUClient:
                 
         return output_path
     
+    def download_zip(self, task_id: str, output_path: Optional[str] = None) -> str:
+        """下载所有文件的ZIP压缩包"""
+        response = requests.get(f'{self.base_url}/download-zip/{task_id}', stream=True)
+        
+        if response.status_code != 200:
+            raise Exception(f"下载ZIP文件失败: {response.text}")
+        
+        # 获取文件名
+        content_disposition = response.headers.get('content-disposition', '')
+        filename = None
+        if 'filename=' in content_disposition:
+            filename = content_disposition.split('filename=')[1].strip('"\'')
+        
+        if not filename:
+            filename = f"mineru_results_{task_id}.zip"
+        
+        if output_path:
+            if os.path.isdir(output_path):
+                output_path = os.path.join(output_path, filename)
+        else:
+            output_path = filename
+            
+        with open(output_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+                
+        return output_path
+    
     def wait_for_completion(self, task_id: str, check_interval: int = 5, timeout: int = 300) -> dict:
         """等待任务完成"""
         start_time = time.time()
@@ -89,6 +117,7 @@ def main():
     parser.add_argument("--wait", "-w", action="store_true", help="等待任务完成")
     parser.add_argument("--interval", "-i", type=int, default=5, help="状态检查间隔（秒）")
     parser.add_argument("--timeout", "-t", type=int, default=300, help="超时时间（秒）")
+    parser.add_argument("--zip", "-z", action="store_true", help="下载ZIP压缩包而不是单独文件")
     
     args = parser.parse_args()
     
@@ -112,12 +141,21 @@ def main():
         status = client.wait_for_completion(task_id, args.interval, args.timeout)
         print(f"任务完成！状态: {status['status']}")
         
+        output_dir = args.output or f"mineru_output_{task_id}"
+        
+        # 如果选择下载ZIP压缩包
+        if args.zip:
+            print(f"下载ZIP压缩包...")
+            zip_path = client.download_zip(task_id, output_dir)
+            print(f"已下载ZIP文件: {zip_path}")
+            return
+        
+        # 否则下载单独的文件
         # 获取文件列表
         files = client.get_file_list(task_id)
         print(f"可用文件: {', '.join(files)}")
         
         # 下载所有文件
-        output_dir = args.output or f"mineru_output_{task_id}"
         print(f"下载文件到: {output_dir}")
         
         for file_name in files:

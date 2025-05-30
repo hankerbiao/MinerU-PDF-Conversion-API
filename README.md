@@ -9,12 +9,13 @@
 - 提供RESTful API接口
 - 任务状态跟踪和文件管理
 - 自动清理过期任务
+- 支持打包下载所有输出文件
 
 ## 安装
 
 1. 克隆本仓库
    ```bash
-   git clone https://github.com/yourusername/mineru-api.git
+   git clone https://github.com/hankerbiao/MinerU-PDF-Conversion-API.git
    cd mineru-api
    ```
 
@@ -104,7 +105,7 @@ GET /files/{task_id}
 }
 ```
 
-### 下载文件
+### 下载单个文件
 
 **请求**:
 ```
@@ -112,6 +113,15 @@ GET /download/{task_id}/{file_name}
 ```
 
 **响应**: 文件内容（二进制）
+
+### 下载所有文件（ZIP压缩包）
+
+**请求**:
+```
+GET /download-zip/{task_id}
+```
+
+**响应**: ZIP压缩包（二进制），包含所有输出文件和图像
 
 ## 配置
 
@@ -134,6 +144,29 @@ curl -X POST "http://localhost:8000/convert/" \
   -F "file=@document.pdf"
 ```
 
+### 使用curl下载ZIP压缩包
+
+```bash
+# 获取任务ID
+TASK_ID=$(curl -s -X POST "http://localhost:8000/convert/" -H "Content-Type: multipart/form-data" -F "file=@document.pdf" | jq -r '.task_id')
+
+# 等待处理完成
+while true; do
+  STATUS=$(curl -s "http://localhost:8000/status/$TASK_ID" | jq -r '.status')
+  echo "Status: $STATUS"
+  if [ "$STATUS" = "completed" ]; then
+    break
+  elif [ "$STATUS" = "failed" ]; then
+    echo "Task failed"
+    exit 1
+  fi
+  sleep 5
+done
+
+# 下载ZIP压缩包
+curl -o results.zip "http://localhost:8000/download-zip/$TASK_ID"
+```
+
 ### 使用Python客户端
 
 ```python
@@ -153,18 +186,24 @@ print(f"Task ID: {task_id}")
 status_response = requests.get(f'http://localhost:8000/status/{task_id}')
 print(f"Status: {status_response.json()['status']}")
 
-# 如果任务完成，获取文件列表
+# 如果任务完成，下载ZIP压缩包
 if status_response.json()['status'] == 'completed':
-    files_response = requests.get(f'http://localhost:8000/files/{task_id}')
-    files = files_response.json()['files']
-    
-    # 下载Markdown文件
-    for file in files:
-        if file.endswith('.md'):
-            download_response = requests.get(f'http://localhost:8000/download/{task_id}/{file}')
-            with open(file, 'wb') as f:
-                f.write(download_response.content)
-            print(f"Downloaded {file}")
+    # 下载所有文件的ZIP压缩包
+    with open('results.zip', 'wb') as f:
+        response = requests.get(f'http://localhost:8000/download-zip/{task_id}', stream=True)
+        for chunk in response.iter_content(chunk_size=8192):
+            f.write(chunk)
+    print("Downloaded ZIP archive")
+```
+
+### 使用提供的客户端脚本
+
+```bash
+# 上传PDF并等待处理完成，然后下载所有文件
+python client_example.py document.pdf --wait
+
+# 上传PDF并等待处理完成，然后下载ZIP压缩包
+python client_example.py document.pdf --wait --zip
 ```
 
 ## 许可证
