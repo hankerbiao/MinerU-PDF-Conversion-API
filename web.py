@@ -138,12 +138,12 @@ custom_css = """
 
 def create_ui():
     """创建简化版Gradio UI"""
-    with gr.Blocks(title="测试中心内部PDF转换工具", css=custom_css) as demo:
+    with gr.Blocks(title="NC 测试中心内部PDF转换工具", css=custom_css) as demo:
         with gr.Column(elem_classes=["container"]):
             # 标题和说明
             with gr.Column(elem_classes=["header"]):
                 gr.Markdown("# 测试中心内部PDF转换工具")
-                gr.Markdown("将PDF文档转换为Markdown，支持提取文本、表格和图片。")
+                gr.Markdown("将PDF文档转换为Markdown，支持提取文本、表格和图片。[MinerU](https://github.com/opendatalab/MinerU)为后端驱动")
             
             # 上传区域
             with gr.Column(elem_classes=["upload-section"]):
@@ -159,7 +159,7 @@ def create_ui():
             
             # 页脚
             with gr.Column(elem_classes=["footer"]):
-                gr.Markdown("© 2025 测试中心内部PDF转换工具 | 基于[MinerU](https://github.com/opendatalab/MinerU)开发")
+                gr.Markdown("© 2025 测试中心内部PDF转换工具 | 基于[MinerU](https://github.com/opendatalab/MinerU)开发 | 使用问题联系libiao1")
         
         # 事件处理
         upload_button.click(

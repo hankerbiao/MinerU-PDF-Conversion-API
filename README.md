@@ -2,6 +2,7 @@
 
 基于[MinerU](https://github.com/opendatalab/MinerU)的PDF转换API服务，使用FastAPI框架实现。
 web页面查看web_readme.md
+![home.png](home.png)
 ## 功能特点
 
 - 将PDF文档转换为Markdown和JSON格式
