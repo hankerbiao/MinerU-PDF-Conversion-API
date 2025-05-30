@@ -1,7 +1,7 @@
-fastapi==0.109.0
-uvicorn==0.27.0
-python-multipart==0.0.9
-magic-pdf[full]>=1.3.0
-pydantic==2.5.3
-python-dateutil==2.8.2
-aiofiles==23.2.1 
+fastapi
+uvicorn
+python-multipart
+magic-pdf[full]
+pydantic
+python-dateutil
+aiofiles

@@ -13,6 +13,7 @@ from magic_pdf.config.enums import SupportedPdfParseMethod
 import config
 from datetime import datetime, timedelta
 import logging
+from contextlib import asynccontextmanager
 
 # 配置日志
 logging.basicConfig(
@@ -23,27 +24,6 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger("mineru-api")
-
-app = FastAPI(
-    title=config.APP_NAME,
-    version=config.APP_VERSION,
-    description=config.APP_DESCRIPTION
-)
-
-# 配置存储路径
-UPLOAD_DIR = "uploads"
-OUTPUT_DIR = "outputs"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-
-# 任务状态跟踪
-class TaskStatus(BaseModel):
-    task_id: str
-    status: str  # "pending", "processing", "completed", "failed"
-    files: Optional[List[str]] = None
-    error: Optional[str] = None
-    created_at: datetime = datetime.now()
-    expires_at: Optional[datetime] = None
 
 # 活跃任务计数
 active_tasks = 0
@@ -74,10 +54,44 @@ async def cleanup_expired_tasks():
         # 每小时检查一次
         await asyncio.sleep(3600)
 
-@app.on_event("startup")
-async def startup_event():
-    asyncio.create_task(cleanup_expired_tasks())
+# 使用lifespan上下文管理器替代on_event
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # 启动时执行
+    cleanup_task = asyncio.create_task(cleanup_expired_tasks())
     logger.info("MinerU PDF Conversion API started")
+    
+    yield  # 这里是应用程序运行的地方
+    
+    # 关闭时执行
+    cleanup_task.cancel()
+    try:
+        await cleanup_task
+    except asyncio.CancelledError:
+        logger.info("Cleanup task cancelled")
+    logger.info("MinerU PDF Conversion API shutdown")
+
+app = FastAPI(
+    title=config.APP_NAME,
+    version=config.APP_VERSION,
+    description=config.APP_DESCRIPTION,
+    lifespan=lifespan
+)
+
+# 配置存储路径
+UPLOAD_DIR = "uploads"
+OUTPUT_DIR = "outputs"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+# 任务状态跟踪
+class TaskStatus(BaseModel):
+    task_id: str
+    status: str  # "pending", "processing", "completed", "failed"
+    files: Optional[List[str]] = None
+    error: Optional[str] = None
+    created_at: datetime = datetime.now()
+    expires_at: Optional[datetime] = None
 
 async def process_pdf(task_id: str, pdf_path: str):
     global active_tasks
