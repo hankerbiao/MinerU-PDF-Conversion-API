@@ -1,7 +1,9 @@
 # MinerU PDF转换工具 - Gradio前端
 
-这是MinerU PDF转换API服务的Gradio前端界面，提供了友好的Web UI来上传、转换和下载PDF文件。
+MinerU 项目没有提供前端页面，本仓库基于MinerU API 开发的Gradio 前端，方便上传下载PDF文件。
+后端服务：参看README.md
 
+![home.png](home.png)
 ## 功能特点
 
 - 简洁直观的Web界面
