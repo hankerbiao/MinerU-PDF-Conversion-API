@@ -12,3 +12,5 @@ __pycache__/*
 
 .idea/*
 .vscode/*
+.gradio/*
+pdf_core/.idea/*

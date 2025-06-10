@@ -1,0 +1,886 @@
+<p>1. 如何查看kernel相关的日志？</br>解答：通过如下方式查看kernel相关日志：dmesg 
+journalctl -k 
+/var/log/messages 
+/var/log/syslog 
+/var/log/kern.log（debian和ubuntu系统）</p><br><p>2. 在RHEL9.4 OS下，手动编译mft4.26工具，报错：unrecognized command-line option '-mharden-sls=all'+ rm -rf /tmp/mft. 14.0 427. 13.1.e19 64
+export 'EXTRA
++ EXTRA CFLAGS=I
++ for flavor in default
++ rm -rf obj/default
+cp -a source obj/default
++ cd /tmp/mft. 156214. logs/topdir/BUILD/kernel-mft-4.26. l/obj/default
+export KSRC=/1ib/modu1es/5. 14.0-427. 13.1.e19 64/bui1d
++ KSRC=/1ib/modu1es/5. 14.0-427. 13.1.e19 64/bui1d
+export KVERSION=5. 14.0-427. 13.1.e19 64
++ KVERSION=5. 14.0-427. 13.1.e19 64
++ make KPVER=5. 14.0-427. 13.1.e19 64
+cd mst backward compatibility/mst pci
+make
+makeC17•
+Entering directory I/tmp/mft. 156214. logs/topdir/BUILD/kernel-mft-4.26. l/obj/default/mst backward _ compatibility/mst_pc
+make -C /lib/modules/5. 14.0-427. 13.1.e19 4.x86 64/build M=/tmp/mft. 156214. logs/topdir/BUILD/kernel-mft-4.26. l/obj/default/mst
+CONFIG CTF= CONFIG CC STACKPROTECTOR STRONG=
+modules
+Entering directory I/usr/src/kernels/5. 14.0-427.13.1.e19 4.x86 641
+makeC2] •
+CC [M] /tmp/mft. 156214. logs/topdir/BUILD/kernel-mft-4.26. l/obj/default/mst backward _ compatibility/mst_pci/ .. / . ./nnt_driver/
+nnt device. o
+unrecognized command-line option
+I -mharden-sls=alll
+gcc:
+error:
+*** [scripts/Makefile.build:299: /tmp/mft. 156214. logs/topdir/BUILD/kernel-mft-4.26. l/obj/default/mst backward _ compati
+makeC3] •
+bility/mst pci/.. / . ./nnt driver/nnt device. o] Error
+1
+*** [Makefile: 1934: /tmp/mft. 156214. logs/topdir/BUILD/kernel-mft-4.26. l/obj/default/mst backward _ compatibility/mst_pc
+makeC2] •
+i] Error
+2
+Leaving directory I/usr/src/kernels/5. 14.0-427. 13.1.e19 4.x86 641
+makeC2] •
+*** [Makefile: 29: all] Error
+makeC1]
+2
+Leaving directory I/tmp/mft. 156214. logs/topdir/BUILD/kernel-mft-4.26. l/obj/default/mst backward _ compatibility/mst_pci
+makeC1]
+make: *** [Makefile:4:
+Bad exit status
+error:
+RPM build
+errors:
+user tbuilder
+does
+group mtl
+does not
+user tbuilder
+does
+group mtl
+does not
+all] Error
+2
+from /var/tmp/rpm-tmp. lxCocU (%build)
+using root
+not exist
+using root
+exist
+using root
+not exist
+using root
+exist
+extra tokens at the end of %endif directive in line 103:
+%endif # end of setup module sign scripts
+</br>解答：需要gcc 11.4版本。使用附件的两个repo包，yum clean all,yum makecache,yum -y install gcc即可</p><br><p>3. 红帽9.4OS下，开机后存在告警：intel_uncore_frequency_tpmi intel_vsec.tpmi-uncore.2: Uncore: Ignore: Unsupported minor version:2</br>解答：内核原因导致。使用Redhat9.5内核：5.14.0-503.11.1验证，不存在该告警t root@S1
+-2
+[ root@S1-
+2
+[ root@S1-
+2
+[ root@S1
+-2
+dmesg
+dmesg
+I grep
+I grep
+" intel
+Iltpmi"
+uncore
+frequency_tpmi"
+</p><br><p>4. RedHat9.4 OS 下，开机后dmesg存在以下告警：4xxx 0000:86:00.0: Direct firmware load for qat_402xx_mmp.bin failed with error -24xxx 0000:86:00.0: Failed to load MMP firmware qat_402xx_mmp.bin4xxx 0000:86:00.0: Failed to load acceleration FW4xxx: probe of 0000:86:00.0 failed with error -14手动安装qat402_xx.bin、qat_402xx_mmp.bin文件到内核，操作无效。</br>解答：内核原因导致，使用RedHat9.5内核：5.14.0-503.11.1下验证不存在此告警</p><br><p>5. linux安装高版本openssl，执行后告警：openssl: error while loading shared libraries: libssl.so.3: cannot open shared object file: No such file or directory[root@localhost
+openssl version
+while loading shared libraries:
+openssl:
+error
+libssl.
+so.
+3:
+cannot
+open
+shared
+obj ect
+file:
+such
+file
+or
+directory
+</br>解答：原因：没有把安装的ssl中libssl.so.3链接到/usr/lib中导致找不到解决办法：查找以下两个文件所在路径：find / -name libssl.so.3find / -name libcrypto.so.3链接到系统下：ln -s /usr/local/openssl/lib/libssl.so.3 /usr/lib/libssl.so.3ln -s /usr/local/openssl/lib64/libssl.so.3 /usr/lib64/libssl.so.3ln -s /usr/local/openssl/lib/libcrypto.so.3 /usr/lib/libcrypto.so.3ln -s /usr/local/openssl/lib64/libcrypto.so.3 /usr/lib64/libcrypto.so.3[root@localhost
+/usr/local/bin/openssl version
+/usr/local/bin/openssl:
+[root@localhost
+/usr/l ib/l ibssl. so. 3
+0.10/1ibssl.so.3 /usr/lib64/
+128-cbc
+128-ctr
+128-0fb
+192-cbc
+192-cfb
+192-ecb
+256-cbc
+256-cfb
+256-ecb
+256-0fb
+256-ctr
+while loading shared
+error
+find / -name libssl.so.3
+/usr/local/l ib64/l ibssl . so .3
+/ home/dxz/ssl/openssl-3.0. 10/1 ibssl . so .3
+[root@localhost
+find / -name libcrypto.so.3
+/usr/l ib/l ibcrypto . so .3
+/usr/local/l ib64/l ibcrypto . so .3
+/ home/dxz/ssl/openssl-3.0. 10/1 ibcrypto . so .3
+libraries:
+libssl. so. 3:
+cannot open shared object file:
+such file or directory
+root@localhost
+[root@localhost
+[root@localhost
+[root@localhost
+[root@localhost
+help:
+Standard commands
+In -s / home/dxz/ssl/openssl
+In -s /home/dxz/ssl/openssl
+openssl
+-3.
+-3.
+asnlparse
+cms
+dhparam
+ecparam
+fipsinstall
+help
+mac
+pkcs12
+pkeyparam
+rehash
+s client
+smume
+storeutl
+Message Digest
+blake2b512
+mdc2
+sha256
+sha3-512
+sha512-256
+Cipher commands
+aes-128-cbc
+aes-256-cbc
+ca
+crl
+dsa
+gendsa
+info
+nseq
+pkcs7
+pkeyutl
+req
+s server
+speed
+ts
+commands ( see
+blake2s256
+rmd160
+sha3-224
+sha384
+shake128
+ciphers
+cr12pkcs7
+dsaparam
+engune
+genpkey
+kdf
+ocsp
+pkcs8
+pr ime
+r sa
+s time
+spkac
+verify
+dgstl command
+md4
+shal
+sha3-256
+sha512
+shake256
+0.10/1ibcrypto.so.3 /usr/lib64/
+cmp
+dgst
+errstr
+genrsa
+list
+passwd
+pkey
+rand
+rsautl
+sess id
+srp
+version
+the
+for
+more details)
+md5
+sha224
+sha3-384
+sha512-224
+sm3
+(see the 'encl command for more
+aes-128-ecb
+aes-256-ecb
+aes-192-cbc
+details)
+aes-192-ecb
+aria-128-cfb
+aria-
+aria-
+aria-
+aria-
+aria-
+128
+192
+-cfbl
+-cfb8
+aria-
+aria-
+aria-
+aria-
+aria-
+128
+192
+-cfb8
+-ctr
+aria-
+aria-
+aria-
+aria-
+aria-
+aria-
+256
+-cfbl
+aria-128-ecb
+aria-192-cfb1
+aria-192-ofb
+aria-256
+-cfb8
+base64
+</p><br><p>6. OpenSSL安装报：Can't locate IPC/Cmd.pm in @INC (you may need to install the IPC::Cmd module)</br>解答：yum -y install perl-IPC-Cmd</p><br><p>7. 新创建RedHat8 OS ，进行yum install 告警：Updating Subscription Management repositories[root@localhost
+yum. yum list
+Updating Subscription Management repositories.
+Unable to read consumer identity
+This system is not registered to Red Hat Subscription Management.
+You can use subscription-manager to register.
+</br>解答：告警为Redhat的官方订阅提示，不订阅就不能下载包。解决办法：1. 编辑/etc/yum/pluginconf.d/subscription-manager.conf文件，将enabled后的值修改为0，并执行命令：yum remove subscription-manager2. 在/etc/yum.repos.d/增加阿里源的repo包；3. yum list查看包、并安装其他相关包。</p><br><p>8. 机器重启，查看KVM和显示屏界面在重启前和进入系统前出现logo画面未显示全屏（mantis bug 188645）</br>解答：Linux启动时显示逻辑问题。可在grub添加nomodeset参数，使用默认图形驱动启动，logo界面会全屏显示。</p><br><p>9. 系统重启，磁盘盘符变化</br>解答：Sd* nvme*
+kernel
+* , *äbt2ähit,
+Sd* nvme*
+RHEL 9
+kernel
+Sd* nvme*
+Storage device names, such as /dev/sdX, are inconsistent between boots
+https : // access . redhat.com/solutions/44389
+nvme
+RHEL 9
+/ etc/fstab
+mynvmel
+How are custom persistent names assigned for SCSI devices using udev in Red Hat Enterprise
+https : // access . redhat.com/solutions/2975361
+Xiaoyan Liu
+mynvme2
+Linux 7 and later kernels?
+</p><br><p>10. 由于非正常关机，导致系统进入紧急模式。初步排查符合以下情况：journalctl -xb 查看报错timed out waiting for device dev-mapper-centos\x2dhome.devicetime out waiting for device /dev/mapper/rl-home查看/etc/fstab文件需要开机挂载home分区，但是lsblk查看/dev/mapper/lv-home分区未挂载且丢失。检查文件/etc/lvm/devices/system.devices为空或者不存在此文件。</br>解答：1. 当前情况如何恢复系统：重新导入设备vgimportdevices --all （如果系统下没有这个指令，安装lvm2，使用lvm交互式指令）执行systemctl default或者reboot，恢复系统。2. 根因分析：(1) 在 RHEL9 系统中，LVM2 默认将使用 /etc/lvm/devices/system.devices 文件来识别哪些设备中包含 PV。如果导入的 PV 不在此文件中，因此 LVM 无法使用它们。对于 LV 如果在内核启动参数中已经指定的（root、swap）会被激活，否则在启动时无法识别到 PV 情况下不会被激活（home）。(2) 由于系统在关闭前，可能会更新/同步最新的配置信息到配置文件中。但 lvm 命令不会直接写入文件 /etc/lvm/devices/system.devices ；而是通过写入名为 /etc/lvm/devices/system.devices_new 的临时文件，然后将此临时文件重命名为 /etc/lvm/devices/system.devices 来修改该文件。在日志中我们可以看到类似的 如下 审计日志：～～～～～～～～～～～～～～～～～～～～～type=PATH msg=audit(1729494308.925:79): item=2 name="/etc/lvm/devices/system.devices_new" inode=67786053 dev=fd:00 mode=0100600 ouid=0 ogid=0 rdev=00:00 obj=system_u:object_r:lvm_metadata_t:s0 nametype=DELETE cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0～～～～～～～～～～～～～～～～～～～～～其中看到了临时名称 /etc/lvm/devices/system.devices_new，意味着更新 /etc/lvm/devices/system.devices 的功能已经运行。但不正常关机可能会导致对 system.devices 的更新留下空白文件，也就是整个更新的过程并没有正确的完整的完成，而在日志中并没有更多的信息。因此，请确认系统的关闭是否是正常完成的。(3) 从OS角度，什么是不正常关机：～～～～～～～～～～～～～～～～～～～～～ipmitool [chassis] power soft # initiate a soft-shutdown via acpiipmitool [chassis] power cycle # issue a hard power off, wait 1s, power onipmitool [chassis] power off # issue a hard power offipmitool [chassis] power reset # issue a hard reset～～～～～～～～～～～～～～～～～～～～～提及的 不正常关机泛指操作系统没有正常的执行完关机的流程，这里了包括了直接断电 导致系统未能执行关机相关的操作 或 在关机的过程中断电导致关闭系统的操作未能执行完成、关机过程中执行了其它操作导致部分任务未执行或执行失败等。在系统中正常的执行 reboot、init 0 属于正常的操作。 IPMI 操作中，通常的 soft 操作是通过发送 ACPI 信号给操作系统执行正常的关闭；但 cycle、off、reset 均可能会直接断电，系统并未执行正常的关闭。(4) 由于非正常关机进入紧急模式，导致 system.devices 文件为空，从而home分区丢失和未激活，这种现象带来的系统问题，如何避免：将 use_devicesfile 参数为 0，将会避免目前我们调查的情况导致的 home分区丢失。此时，系统将按照 /etc/lvm/lvm.conf 中设置的 filter 规则管理了设备（默认情况下没有限制，使用全部可用设备）。具体操作方式如下：a. 修改 /etc/lvm/lvm.conf 中配置 use_devicesfile 为 0，（在现有配置文件中 ‘# use_devicesfile = 1’ 修改为 0 并取消注释，或在现有行下添加新的配置）b. 然后重建 initial boot image 。 修改后系统不再使用 system.devices 文件管理设备。～～～～～～～～～～～～～～～～～～～～～cp /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r).img.$(date +%m-%d-%H%M%S).bakdracut -f -v～～～～～～～～～～～～～～～～～～～～～</p><br><p>11. RHEL 9版本，开启mcelog服务，无权限mcelog: Cannot open logfile /var/log/mcelog: Permission denied</br>解答：原因：selinux的上下文不对解决方法：恢复restorecon -v /var/log/mcelog，重启mcelog服务。</p><br><p>12. Redhat图形桌面下修改分辨率失败，报错如下图：XWAYLANDO connected
+800x600
+640x480
+32@x240
+72@x48Ø
+640x400
+320x200
+864x486
+720x400
+640x35@
+[root@localhost xrandr
+Screen O: minimum 16 x 16, current 1024 x 768, maximum 32767 x 32767
+59.86
+59.38
+59.52
+59.71
+59.95
+58.96
+59.90
+59.92
+59 .55
+59.77
+primary 1024x768+O+O (normal left inverted right x axis y axis) Omm x Omn
+59.75
+[root@localhost xrandr —-output XWAYLANDØ —-mode 480x640
+xrandr: cannot find mode 480x640
+[root@localhost xrandr —-output XWAYLANDO --mode
+X Error of failed request:
+BadMatch (invalid parameter attributes)
+Major opcode of failed request: 140 (RANDR)
+Minor opcode of failed request: 7 (RRSetScreenSize)
+Serial number of failed request:
+22
+current serial numuer in output stream: 23
+</br>解答：Redhat下有两种显示服务器：x window system（也被称为x11或xorg）和wayland。xrandr是针对x11的工具，而你系统上运行的是wayland。xwayland是运行于wayland上，让只支持x11的程序也能显示的一个兼容性程序。系统上xrandr面对只是xwayland模拟出来的x11环境，并不支持更改分辨率这样的功能。解决办法：登录系统输入密码时选择右下角设置按钮>>选择Stander(X11 display server)>>输入密码进入OS：见下图可自行添加分辨率选项Novi3 11:42
+Password
+Red Hat
+Standard (Wayland display server)
+GNOME Classic
+GNOME Classic on xorg
+Custom
+• Standard (XII display server)
+User script
+0
+</p><br><p>13. gsd-color[44260]: unable to get EDID for xrandr-VGA-1: unable to get EDID for output</br>解答：错误表明无法获取作为监视器信息的 EDID（扩展显示识别数据）。虚拟主机（如 KVM）上的客户机可能无法获取 EDID，因为虚拟主机不支持显示信息。</p><br><p>14. 在RHEL 9.4  kernel 5.14-427版本，cpupower frequency-info无法获取到CPU core频率，返回值Unable to call to kernel。analyzing CPU 287:
+driver: intel pstate
+CPUs which run at the same hardware frequency: 287
+CPUs which need to have their frequency coordinated by software: 287
+maximum transition latency: Cannot determine or is not supported.
+hardware limits: 800 MHz - 3.90 GHz
+available cpufreq governors: performance powersave
+current policy: frequency should be within 800 MHz and 3.90 GHz.
+The governor "powersave" may decide which speed to use
+within this range.
+current CPU frequency: Unable to call hardware
+current CPU frequency: Unable to call to kernel
+boost state support:
+Supported: yes
+Active: yes
+</br>解答：Granite Rapids和Sierra Forest系列CPU的intel_pstate驱动与系统cpupower存在兼容性问题。尝试使用acpi-cpufreq驱动，cpupower frequency-info获取到的cpu频率正常。# grubby --update-kernel=ALL --args="intel_pstate=disable"# systemctl reboot另外intel_pstate驱动的兼容性问题，根据红帽的回复，近期没有修复此问题的计划。可能会在后续kernel版本修复此问题。Nishikawa, Seiji
+Hello,
+The reason cpupower doesn't work properly for Xeon 6960P (Granite Rapids)
+is likely due to the intel_pstate driver in use.
+intel pstate driver manages CPU frequency directly through hardware.
+It may not provide full support for manual manipulation or detailed
+frequency reporting via cpupower, especially in 00B (Out-of-Band) mode.
+$ grep .
+sys/devices/system/cpu/intel pstate/status
+active
+Even though intel pstate/status shows "active, "
+indicating in-band mode,
+the processor may still be configured in 00B mode at the hardware level,
+limiting what cpupower can control.
+Newer processors like Granite Rapids might have power management
+configurations that aren 't fully compatible with tools like cpupower,
+which traditionally works better with acpi-cpufreq.
+Furthremore a patch to add support for Granite Rapids and Sierra Forest
+in 00B mode to intel_pstate driver hasn't been backported to RHEL9.
+3ca2a3d1e727 cpufreq: intel_pstate: Support Granite Rapids and Sierra Forest 00B mode
+Could you please once try acpi-cpufreq driver instead of intel pstate
+driver and check if it works for the expected cpupower print-outs?
+To that end, you can once disable intel pstate by adding a parameter
+sat, Nov 2, 2024, PM GMT+8
+like this:
+# grubby - -update-kernel=ALL
+# systemctl reboot
+Reference:
+-args="intel_pstate=disable"
+How to modify the kernel command-line in Red Hat Enterprise Linux 9
+https : // access . redhat . com/s01utions/66686@1
+Red Hat Customer portal
+intel pstate=
+Have a great weekend .
+Best Regards,
+Seiji Nishikawa
+- SSME,
+0<86]
+disable
+Do not enable intel pstate as the default
+scaling driver for the supported processors
+Red Hat GSS
+</p><br><p>15. RHEL 9 中的 lsscsi 命令未列出 nvme 设备。</br>解答：1. lsscsi主要用于 SCSI 设备。虽然 lsscsi 能够处理本地连接的 PCIe NVME 设备的详细信息，但它可能不适用于 nvme over fc/tcp 或 nvme 多路径设备。不建议将 lsscsi 用于 nvme 设备。2. RHEL 8 版本默认禁用 nvme 多路径，因此系统上没有创建这样的“nvme0c0nX”设备。但是 RHEL 9 中默认启用了 nvme 多路径。启用 nvme 多路径后，nvme_core 驱动将为其找到的每个控制器路径创建“隐藏”块设备。如果有多路径 nvme“/sys/block/nvme0n1”，则会有一个“/sys/block/nvme0c0n1”设备，该设备应链接到 sysfs 中的 pci 物理设备。“lsscsi”命令无法处理这些 nvme 多路径设备的详细信息。</p><br><p>16. kernel: user: probe of wq1.0 failed with error -95</br>解答：这些消息是良性的。当工作队列用户子驱动程序在初始化期间进行探测时，它会检查是否启用了 SVA 并返回错误，然后再检查它是否是首先为工作队列配置的驱动程序。这可能会导致数十条良性消息，但表明系统上发生了很多错误。workqueue 用户子驱动程序首先探测在 SVA 上运行的操作顺序，而不是首先检查驱动程序名称匹配。</p><br><p>17. 大运河R620 G60安装Windows2022更新chipset后设备管理器下存在未识别设备Keyboards
+Mice and other pointing devices
+Monitors
+Network adapters
+Ports & LPT)
+Communications port (COM3)
+Print queues
+Processors
+</br>解答：更新BIOS解决</p><br><p>18. 系统日志有如下信息：kernel: user: probe of wq3.0 failed with error -95</br>解答：内核软件的问题，该消息是良性的，忽略即可。未来红帽会发布修复版本，解决该问题。【Root Cause】workqueue user sub-driver probing order of operations working on SVA first instead of checking for driver name match first.https://access.redhat.com/solutions/7078976</p><br><p>19. ModemManager[4217]: <info>  [base-manager] couldn't check support for device '/sys/devices/pci0000:15/0000:15:05.0/0000:16:00.0': not supported by any plugin</br>解答：出现这类型日志，说明 pci 位置上的设备不受 ModemManager 支持。ModemManager 是一个在Linux系统中的守护进程，用于管理和控制各种移动宽带设备，例如3G/4G LTE调制解调器和移动热点。如果没有任何调制解调器，可以停止 ModemManager.service。# systemctl stop ModemManager.service# systemctl disable ModemManager.service</p><br><p>20. ssh无法远程连接服务器</br>解答：1. 确认安装ssh服务2. 修改/etc/ssh/sshd_config文件PermitRootLogin yesPubkeyAuthentication yesPasswordAuthentication yes3.重启服务systemctl restart sshd.service</p><br><p>21. 运行fullloading压测，测试日志出现：clocksource: timekeeping watchdog on CPU69: hpet wd-wd read-back delay of 95240nsclocksource: wd-tsc-wd read-back delay of 134040ns, clock-skew test skipped!</br>解答：1. 仅从这两条日志看，是信息性的日志。它只是注意到hpet的回读延迟太高，无法用于检查TSC可靠性。因此，只要它不会导致tsc回退到hpet，就可以忽略这些消息。备注：从/sys/devices/system/clocksource/clocksource0/current_clocksource查看。2. 在grub参数中使用参数tsc=nowatchdog阻止该消息</p><br><p>22. irqbalance: Cannot change IRQ 76 affinity: Input/output error</br>解答：此消息可以忽略。Irqbalance改进了错误处理，affinity failures会记录在日志中。Root Cause
+• irqbalance has improved error handling; failures in affinity changes, which are just ignored in Old versions, will recorded in logs.
+This issue is discussed in BZ2227536 - irqbalance: Cannot change IRO 76 affinity: Input/output error
+Thanks for reporting the issue. However I think it is expected due to upstream patch: 9aIfd29a82c97 ("activate_mapping: report error
+reason") and eee7917ef5272S ("activate_mapping: only blacklist irq if error is considered permanent"). In short words, if a IRQ number
+failed to set affinity due to ! (ENOSPC && EAGAIN && EBuSY && EINVAL && ERANGE && ENC+IäM) error, it Will be kicked out Of schedule list
+in case of re-set affinity next time, and at the same time throw out a error message to report the failing details.
+Previous version Of irqbalance Will just fail With no error report, so users don't know if a irq number is affinity set successfully or
+not. this bug is addressed in 022184735. and the patches I mentioned previously is meant to fix this bz.
+</p><br><p>23. dmesg日志中频繁打印：systemd-journald[1317068]: Sent WATCHDOG=1 notification.systemd-journald[1317068]: Successfully sent stream file descriptor to service manager.</br>解答：这条日志信息表明服务与 systemd 之间的通信过程正常，服务启动成功。这是一条表示正常操作的消息，通常不需要采取进一步行动。</p><br><p>24. 进入系统，日志有udevadm相关的failed日志：udevadm[3048]: drivers: Failed to write 'add' to '/sys/bus/acpi/drivers/uevent', ignoring: No such file or directory</br>解答：1. 此信息属于提示性的无害信息，用于给出一个常规的错误提示，是 systemd 实现的一部分。在启动过程中 udev trigger uevent 时将会触发，而这几个目录下也确实没有 uevent 文件，所以给出了类似提示性信息。2. 尝试用以下方式过滤在 /etc/rsyslog.d/ 下创建一个自定义文件，然后设置：# if $syslogtag contains 'udevadm' and $msg contains 'ignoring: No such file or directory' then stop再重启 rsyslog 服务：# systemctl restart rsyslog.serviceBlack List: failed</p><br><p>25. 系统日志dlb2 0000:6d:00.0: [dlb2_vdcm_init()] Failed to enable aux domains; no SIOV supportdlb2 dlb0: VDCM initialization failed, no SIOV support</br>解答：1. Enable VT-d in BIOS2. Enable SRIOV in BIOS3. Make sure the following is in /proc/cmdline (GRUB_CMDLINE_LINUX in/etc/default/grub):  iommu=pt intel_iommu=onBlack List: failed</p><br><p>26. 系统重启后，系统日志有关于QAT的报错，需要更新QAT驱动</br>解答：问题描述：Rocky 9.1系统，机器重启后系统日志存在qat相关报错解决方案：1. Intel反馈QAT driver官方没有针对Rokey系统的Release包；经测试，1.0.40-00004版本可以在Rokey9.1系统上成功Build，手动安装后可以正常识别QAT设备。2. 如果要重启后加载新的驱动，先将默认的QAT模块加入黑名单：在grub文件中添加参数 ”rd.driver.blacklist=intel_qat rd.driver.blacklist=qat_4xxx“3. Grub参数生效后，重启系统加载新QAT驱动4. 关于QAT的报错，还会剩余以下两条报错，可以修改BIOS选项屏蔽报错，（BIOS研发建议不需屏蔽，不影响正常使用）White List : 缺省Black List : Failed  error[Fri
+[Fri
+[Fri
+[Fri
+[Fri
+[Fri
+[Fri
+root@N5
+cat dmesgl . log Igrep -i error
+16:05.
+16:05.
+16:05.
+16:05.
+16:05.
+16:31.
+16:31.
+Jun
+Jun
+Jun
+Jun
+Jun
+Jun
+Jun
+28
+28
+28
+28
+28
+28
+28
+• 03
+• 03
+• 03
+20241
+20241
+20241
+20241
+28241
+2024]
+2024]
+ERST :
+4xxx
+4xxx :
+4xxx
+4xxx :
+4xxx
+4xxx
+Record Serialization Table (ERST) support is
+:76 :aa.e: Direct firmware load for
+probe of failed with
+. Direct firmware load for
+probe of failed with
+QAT:
+Failed
+to enable AER,
+aeee:f3 :ae.e:
+QAT:
+Failed
+to enable AER,
+code
+code
+initialized .
+failed with
+failed with
+. bin
+-s
+-5
+</p><br><p>27. Ubuntu22.04系统，无法开启虚拟usb0网口设备</br>解答：报错现象：小米的项目，相同版本的BMC 和BIOS, Ubuntu22.04系统无法开启虚拟usb0网口设备，返回值无报错，日志无报错。Centos7.3可以正常开启。打开 ipmitool raw 0x3a 0x4c 0x01关闭 ipmitool raw 0x3a 0x4c 0x00查看状态 ipmitool raw 0x3a 0x4d解决方案：modprobe cdc_ether，重启出现usb0的虚拟网口。Cdc_ether提供usbnet模块</p><br><p>28. journalctl -xb 查看报错
+timed out waiting for device dev-mapper-centos\x2dhome.device
+time out waiting for device /dev/mapper/rl-home
+通过lsblk查看/dev/mapper/lv-home盘符丢失</br>解答：重新导入设备vgimportdevices --all 
+重启，系统恢复White List : 缺省Black List : 缺省</p><br><p>29. Can't locate Time/HiRes.pm in @INC (you may need to install the Time::HiRes module) (@INC contains: /usr/local/lib64/perl5 /usr/local/share/perl5 /usr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib64/perl5 /usr/share/perl5) at ./Run line 6.</br>解答：缺少安装包或依赖，使用yum命令安装perl即可
+yum -y install perlWhite List : 缺省Black List : 缺省</p><br><p>30. message "dbus-daemon[XXXX]: [system] Activated service 'org.fedoraproject.Setroubleshootd' failed: Invalid configuration (missing or empty?)"</br>解答：当 setroubleshoot-* 软件包在禁用 SELinux 时存在时，DBUS 将尝试激活 org.fedoraproject.Setroubleshootd，但由于禁用了 SELinux，它失败了并显示这些消息
+禁用 SELinux 时删除 setroubleshoot-* 软件包。
+检查 Selinux 状态和 setroubleshoot-* 软件包
+sestatus
+rpm -qa |grep -i setroubleshootWhite List : 缺省Black List : 缺省</p><br><p>31. kernel: x86/split lock  detection: #DB: sandstone/3425598 took a bus_lock trap at address:  0x4825d1
+
+kernel: x86/split lock detection: #DB: locks_ccb_xch_o/3457983 took a  bus_lock trap at address: 0x1ba44d1</br>解答：这些是一般的告知信息，您可以将其忽略，该功能从RHEL8.5开始引入：
+
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/8.5_release_notes/kernel_parameters_changes#doc-wrapper
+见如下对该功能的描述：
+～～～
+split_lock_detect = [X86]
+With this parameter you can  enable split lock detection or bus lock detection.  
+When enabled, and if hardware  support is present, atomic instructions that access data across cache line  boundaries will result in:   
+an alignment check  exception for split lock detection   
+a debug exception for bus  lock detection  
+Possible values:
+off - the functionality  is not enabled
+warn - the kernel emits  rate-limited warnings about applications and
+trigger the #AC exception  or the #DB exception. This mode is the
+default on CPUs that  support the split lock detection or the bus
+lock detection. The  default behavior is by #AC if both features are
+enabled in  hardware.
+fatal - the kernel sends  the SIGBUS signal to applications that
+trigger the #AC exception  or the #DB exception. The default behavior
+is by #AC if both  features are enabled in hardware.   
+ratelimit:N - sets the  system wide rate limit to N bus locks per
+second for bus lock  detection (0 < N ← 1000). N/A for split lock
+detection.
+If an #AC exception is  hit in the kernel or in firmware (for example
+not while executing in  user mode) the kernel will oops in either the
+warn or fatal mode.
+#DB exception for bus  lock is triggered only when CPL > 0.
+～～～
+
+更多相关信息，您也可以查看下面KB：
+
+KVM host prints "x86/split lock detection" messages when running  Windows Guests
+https://access.redhat.com/solutions/6991428White List : 缺省Black List : 缺省</p><br><p>32. 每次重启，系统日志中会有：
+kernel: sep5_34: [warning] [lwpmudrv_Detect_PMT_Endpoints@6152]: Address of PMT function is invalid
+运行SHC测试，结果PASS，系统日志会有：
+sep5_34: [warning] [linuxos_online_cpu@771]: Cpu 75 is not allowed to come online!</br>解答：据悉机器测试过vasp，需安装oneapi工具包，选择安装了vtune工具，从而安装了sep5 driver，同时部署sep5 service，系统启动时便会加载sep5 driver。可通过卸载oneapi或卸载vtune或禁止开机启动sep5服务，解决此问题。White List : 缺省Black List : 缺省</p><br><p>33. Rocky9.1系统下每次重启后检查系统日志下warning。
+kernel: x86/split lock detection: #DB: warning on user-space bus_locks
+类似日志：
+x86/split lock detection: #AC: crashing the kernel on kernel split_locks and warning on user-space split_locks
+如果是split lock detection相关的其他日志，需要具体情况具体分析。</br>解答：split lock detection 用于检测和处理分割锁的。Boot时会加载split lock detection的设置，默认是warning级别，此条日志中的warning代表split lock detection的设置值。可忽略。White List : 缺省Black List : 缺省</p><br><p>34. i40e 0000:2a:00.0: DCB init failed -53, disabled</br>解答：更新网卡固件White List : 缺省Black List : 缺省</p><br><p>35. kernel: Fail to get numa node for CPU:X bus:X dev:X fn:X</br>解答：可以安全地忽略此消息，因为它只是一个信息性消息，不会在系统上引起任何问题
+https://access.redhat.com/solutions/7011727White List : 缺省Black List : 缺省</p><br><p>36. USB 2-5-port1: over-current condition</br>解答：USB过流保护，先检查主板上是否有异物。
+弹簧导致USB3.0 HUB的OC信号出现接地情况，触发了OC信号。White List : 缺省Black List : over-current</p><br><p>37. 修改BIOS时间，系统时间无法同步。</br>解答：1. 在redhat 9和redhat 9.1上验证，没有这类问题。
+2. 在rocky 9.1上经过多次验证，设置1年内的时间，可以实现时间同步；设置超过1年以前的时间，local 时间会定在2022-11-15 08:00:0。White List : 缺省Black List : 缺省</p><br><p>38. 安装过程中遇到An unknown error has occured。</br>解答：在此界面尝试将control+alt+F2，进入anaconda界面，然后将硬盘格式化后。再次尝试安装。White List : 缺省Black List : 缺省</p><br><p>39. avahi-daemon[4315]: WARNING: No NSS support for mDNS detected, consider installing nss-mdns!</br>解答：这不是一个错误，只是一个警告，表明红帽企业 Linux 中未安装支持 mDNS 的库。
+
+可以通过以下任一解决方案来解决此问题：
+
+a.如果系统不需要 avahi-daemon，请停止它。
+# systemctl stop avahi-daemon
+# systemctl disable avahi-daemon
+b.安装nss-mdns。
+c.忽略警告消息并保持 avahi-daemon 运行。
+https://access.redhat.com/solutions/18783White List : 缺省Black List : 缺省</p><br><p>40. nm-initrd.service was skipped because of a failed condition check
+nm-wait-online-initrd.service was skipped because of a failed condition check
+Dispatch Password Requests to Console Directory Watch was skipped because of a failed condition check
+dracut pre-mount hook was skipped because all trigger condition checks failed
+Dispatch Password Requests to Console Directory Watch was skipped because of a failed condition check</br>解答：这些提示“failed condition check”的日志并非是报错，只是匹配了“failed”这个关键词，可以将其忽略。
+可以参照文档中的方法，通过# journalctl -b -p warning 命令获取warning及更低级别（emerg、alert、crit、err等）的日志，而不包含info日志。
+https://access.redhat.com/mt/zh-hans/solutions/6964964
+https://access.redhat.com/solutions/6976049White List : failed condition checkBlack List : 缺省</p><br><p>41. 现象：DC三圈左右，OS进入紧急模式，control+D进入系统，系统正常。
+系统下相关的报错信息：Failed to start OSTree Remount OS/Bind Mounts.</br>解答：When booted with debugging enabled, the targets pull ostree-remount.service and after 6 retries ostree-remount.service fires OnFailure which leads to entering Emergency。相关解答：1.服务ostree-remount.service的功能和作用是什么？将此服务mask后，会有什么影响呢？<== ostree的具体介绍您可以参考如下：OSTree is a tool for managing bootable, immutable, versioned filesystem trees. While it takes over some of the roles of tradtional "package managers" like dpkg and rpm, it is not a package system; nor is it a tool for managing full disk images. Instead, it sits between those levels, offering a blend of the advantages (and disadvantages) of both.更完整的介绍您可以参考如下第三方网站：OSTree Overview https://ostreedev.github.io/ostree/introduction/如果您并未使用ostree，您可以安全将该服务mask掉2.从哪版RHEL开始，增加了这个服务？<== RHEL73.哪种情况下，会引起此服务ostree-remount.service failed？<== 在您当前的场景下，ostree-remount.service失败是由于'start-limit-hit'，这一般是由于服务在短时间内启动/重启。~~~ When booted with debugging enabled, the targets pull ostree-remount.service and after 6 retries ostree-remount.service fires OnFailure which leads to entering Emergency~~~4.如何避免系统因为ostree-remount.service，进入紧急模式呢？<== 按照如下知识库文档描述方法将systemd升级至systemd-239-68.el8或更高版本，或者移出ostree软件包或mask ostree-remount.service。 System enters Emergency mode due to ostree-remount.service failing (hitting start limit) https://access.redhat.com/solutions/6952061White List : 缺省Black List : 缺省</p><br><p>42. Jul  7 16:57:39 ctyun-S7 NetworkManager[3620]:[1688720259.7888] device (ens23f0): state change: ip-config -> failed (reason 'ip-config-unavailable', sys-iface-state: 'managed')
+Jul  7 16:57:39 ctyun-S7 NetworkManager[3620]:[1688720259.7891] device (ens23f0): Activation: failed for connection 'ens23f0'
+Jul  7 16:57:39 ctyun-S7 NetworkManager[3620]:[1688720259.7891] device (ens25f1): state change: ip-config -> failed (reason 'ip-config-unavailable', sys-iface-state: 'managed')
+Jul  7 16:57:39 ctyun-S7 NetworkManager[3620]:[1688720259.7893] device (ens25f1): Activation: failed for connection 'ens25f1'
+Jul  7 16:57:39 ctyun-S7 NetworkManager[3620]:[1688720259.7895] device (ens23f0): state change: failed -> disconnected (reason 'none', sys-iface-state: 'managed')
+Jul  7 16:57:39 ctyun-S7 NetworkManager[3620]:[1688720259.8220] dhcp4 (ens23f0): canceled DHCP transaction, DHCP client pid 27515</br>解答：NetworkManager服务，激活网口。当网口的dhcp连接不上，导致网口获取IP失败。将网口连线拔掉或者接交换机，报错消失。White List : 缺省Black List : 缺省</p><br><p>43. 在grub界面前显示：error: ../../grub-core/commands/loadenv.h:51:invalid environment block.
+或者系统下执行grub2-mkconfig -o /boot/grub2/grub.cfg，报错/usr/bin/grub2-editenv: error: environment block too small.</br>解答：根本原因：/boot/efi/EFI/redhat/grubenv文件可能已经损坏，或者文件大小不是1024B（1K）。
+对于legacy：
+# mv /boot/grub2/grubenv /tmp
+# grub2-mkconfig -o /boot/grub2/grub.cfg
+对于uefi：
+# mv /boot/efi/EFI/redhat/grubenv /tmp
+# grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+# cp /boot/grub2/grubenv /boot/efi/EFI/redhat/grubenv
+# mv /boot/grub2/grubenv /boot/grub2/grubenv.bkp
+# ln -s /boot/efi/EFI/redhat/grubenv /boot/grub2/grubenv
+https://access.redhat.com/mt/zh-hans/solutions/5622731
+https://access.redhat.com/solutions/5061041White List : 缺省Black List : invalid/error</p><br><p>44. RHEL系统在图形化login界面，使用BMC KVM关机或者机器关机按钮不生效，无法关机。</br>解答：https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/desktop_migration_and_administration_guide/setting-behavior-of-particular-buttons
+在Graphical Target Mode界面按压关机按钮，系统默认suspend模式。可以通过修改参数，实现不同行为。实现方式：
+1. Create a local database for system-wide settings in the /etc/dconf/db/local.d/01-power file:
+[org/gnome/settings-daemon/plugins/power]
+power-button-action='interactive'
+2. Override the user's setting and prevent the user from changing it in the /etc/dconf/db/local.d/locks/01-power file:
+/org/gnome/settings-daemon/plugins/power/power-button-action
+3.dconf update
+Update the system databases:
+# dconf update
+备注：不同行为
+nothing：does nothing
+suspend：suspends the system
+hibernate：hibernates the system
+interactive：shows a pop-up query asking the user what to do
+
+
+默认suspend设置，在不同场景下分别执行执行ipmitool power soft的行为：
+1. 图形化登陆界面，无响应，不会关机；
+2. 图形化登录进去，即GNOME下的suspend，系统suspend后，任何操作均可以将系统唤醒，被系统唤醒后即为系统用户登陆界面。
+3. 命令行界面，系统会关机。White List : 缺省Black List : 缺省</p><br><p>45. mods:ACPI method_DSM failed</br>解答：mods和内核冲突，询问NV后可忽略White List : mods:ACPI method_DSM failedBlack List : 缺省</p><br><p>46. 安装完debian系统后图形化界面黑屏</br>解答：起因：安装系统选择软件包，勾选多种桌面安装包会冲突。
+解决方案：tasksel install desktop gnome-desktop，然后重启系统。White List : 缺省Black List : 缺省</p><br><p>47. man-db-cache-update.service: Job man-db-cache-update.service/start timed out</br>解答：man-db-cache-update是更新手册缓存失败。通过升级man-db版本至 man-db-2.7.6.1-18.el8.x86_64.rpm。
+https://access.redhat.com/mt/zh-hans/solutions/5466201
+另外，修改/etc/sysconfig/man-db参数：
+安装包含手册页的软件包，禁止触发man-db更新。将SERVICE参数设置为“no”。
+将更新任务添加到cron中，定时去更新。将CRON参数设置为“yes”。White List : 缺省Black List : 缺省</p><br><p>48. WARNING: CPU: 16 PID: 1941 at arch/x86/events/intel/uncore_discovery.c:184 uncore_insert_box_info+0x115/0x2f0 [intel_uncore]</br>解答：Intel states that this situation will have the following user-visible impact:
+
+perf stat -e uncore_upi_2/$some_events/ or perf stat -e uncore_m3upi_2/$some_events/ will error out with "No PMU support"
+The issue only impacts UPI2. The UPI0 and UPI1 work as expected. The user can still access uncore_upi_0/1 and uncore_m3upi_0/1
+It appears that some of the perf uncore functionality will be unavailable, but no bad data will be produced and it doesn't affect any other functions.
+
+In addition, this warning has no affect on any other user or kernel mode operation. It only affects access to the UPI2 event counters by the perf tool.
+https://access.redhat.com/solutions/6999819White List : arch/x86/events/intel/uncore_discovery.c:184Black List : 缺省</p><br><p>49. systemd-udevd: failed to open file /etc/ndctl/keys/nvdimm-master.blob: No such file or directory</br>解答：在boot时，ndctl尝试加载libnvdimm，如果机器中没有NVIDIMM设备，此信息是可忽略的。可以通过卸载ndctl，避免在dmesg中出现此类报错。
+https://access.redhat.com/solutions/5043961White List : 缺省Black List : 缺省</p><br><p>50. ERST: Error Record Serialization Table (ERST) support is initialized</br>解答：ERST is a method provided by APEI (ACPI Platform Error Interface) to save and retrieve hardware error record to and from certain simple persistent storage such as NVRAM (Non-volatile RAM).
+https://access.redhat.com/solutions/527433White List : ERSTBlack List : 缺省</p><br><p>51. 系统下硬盘的盘符乱序</br>解答：官方回复： 这是 Linux 中常见的一个现象，因为设备的命名取决于系统启动过程中 kernel 对设备的发现顺序，而每次启动发现设备的顺序是无法控制和预估的，所以就会出现由于发现设备顺序的不同，设备命名的不同。而且也有可能每次重启，因为发现顺序不同的原因，设备名称发现改变。也就意味着，自动产生的设备的名称也绝非是持久化的，这是一种正常且预期的行为。 所以在使用上，一般也不要使用设备名称作为参数来使用，例如不要使用 /dev/nvmeXX 这样的名称设置在 /etc/fstab 中。 如下文档供您参考，虽然针对的是 sdX 设备，不过其基本原理同样适用于 nvme： Storage device names (/dev/sdx) changes sometimes across boots https://access.redhat.com/solutions/44389White List : 缺省Black List : 缺省RHEL RHEL 5
+RHEL 9
+</p><br><p>52. mce: [Hardware Error]: Machine check events logged
+EDAC skx MC4: HANDLING MCE MEMORY ERROR
+EDAC skx MC4: CPU 48: Machine Check Event: 0x0 Bank 14
+EDAC DEBUG: skx_mce_output_error:
+EDAC MC4: 1 CE memory read error on CPU_SrcID#1_MC#0_Chan#1_DIMM#0</br>解答：内存单体问题，更换内存无报错。White List : 缺省Black List : 缺省</p><br><p>53. ERROR：Uable to locate IOAPIC for GSI 24</br>解答：该问题根因是22WW01 BKC中将串行Uart0,1 Pin/Irq从16A、17B更改为24B、25C，这不仅在Linux中引入了错误，在Windows中也有相同问题，Intel在22WW09 BKC中修复该问题White List : 缺省Black List : 缺省</p><br><p>54. Oct 19 15:18:44 bytedance mcelog[1841]: getaddrinfo: Invalid argument
+Oct 19 15:18:44 bytedance mcelog[1841]: Failed get ip for topinfo01.sysste.byted.org</br>解答：外网无法访问，正常现象White List : 缺省Black List : 缺省</p><br><p>55. tsc: Marking TSC unstable due to clocksource watchdog</br>解答：需要在OS中添加patch，如是字节项目需要定制OS 5.4.210.bsk版本kernel。White List : 缺省Black List : tsc: Marking TSC unstable due to clocksource watchdog</p><br><p>56. msr: Write to unrecognized MSR 0x1b3 by ptu (pid: 2752). Please report to x86@kernel.org.</br>解答：/dev/cpu/CPUID/msr 在内核5.4 版本是可以直接read/write，在内核5.10 intel 对这块加入了 allow_write 开关，默认情况下在用户态不支持 对msr 的写，主要是屏蔽用户态恶意对cpu 降压 降频等动作。 如果需要测 需要在cmdline 中加入 msr.allow_writes=on ；White List : 缺省Black List : 缺省</p><br><p>57. Uncorrectable machine check exception</br>解答：触发IERR，指向CPU1内部错误，建议更换CPU，重跑后暂未复现。
+bank 4 (PCU) MCACOD: 0x40c, MSCOD: 0x02": "MCACOD_decoded: Shutdown errors, MSCOD_decoded: Double bit RAM error on Instruction Fetch | Internal errorWhite List : 缺省Black List : Uncorrectable machine check exception</p><br><p>58. Detected insufficient power on the PCIe slot (27W)</br>解答：结合Intel的推荐设置，root port最大供电限制power limit是75w，如果卡的需求大于75w，root port的供电能力可能难于支持。
+在此PCIe Switch拓扑下，Power Limit是由PCIe Switch进行设置的，给固件的Firmware需求也标注了这一点，但实际上BRCM的Firmware并没有生效。经确认，目前版本BRCM Firmware暂时没有办法实现PowerLimit寄存器生效，此问题在同平台其他项目也有，属于供应商共性问题White List : 缺省Black List : Detected insufficient power on the PCIe slot (27W)</p><br><p>59. kernel: [ 485.691575][ C130] handle_mm_fault+0x1162/0x1660
+kernel: [ 485.691575][ C130] do_user_addr_fault+0x1b0/0x5c0
+kernel: [ 485.691576][ C130] exc_page_fault+0x7f/0x170
+kernel: [ 485.691576][ C130] ? asm_exc_page_fault+0x8/0x30
+kernel: [ 485.691576][ C130] asm_exc_page_fault+0x1e/0x30</br>解答：收集日志SOP：
+1.当触发此现象后先执行
+echo l > /proc/sysrq-trigger （是L（小写） 不是 1），将所有cpu stack 打印到dmesg 中，收集dmesg
+2.在完成1 动作后，在kudmp 配置好的情况下 执行
+echo 1 > /proc/sys/kernel/sysrq
+echo c > /proc/sysrq-trigger
+触发panic 生成vmcore
+分析是hept patch合入导致White List : 缺省Black List : 缺省</p><br><p>60. clocksource: hpet: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 76450417870 ns</br>解答：查看最终启动后的时钟源cat /sys/devices/system/clocksource/clocksource*/current_clocksource，如果是tsc，则此条信息为正常日志。White List : 缺省Black List : 缺省</p><br><p>61. EXT4-fs (sda1): re-mounted. Opts: errors=remount-ro</br>解答：ubuntu/Debian系统已知问题，可忽略White List : EXT4-fs (sda1): re-mounted. Opts: errors=remount-roBlack List : 缺省</p><br><p>62. ata.*:SATA link down</br>解答：SATA控制器下的ata设备，当前自研Intel平台SATA控制器下未接设备White List : ata.*:SATA link downBlack List : 缺省</p><br><p>63. ccp initialization failed
+SEV: failed to INIT error 0x13</br>解答：SEV is an extension to the AMD-V architecture which supports running encrypted virtual machine (VMs) under the control of KVM. Encrypted VMs have their pages (code and data) secured such that only the guest itself has access to the unencrypted version. Each encrypted VM is associated with a unique encryption key; if its data is accessed to a different entity using a different key the encrypted guests data will be incorrectly decrypted, leading to unintelligible data.The kernel reported that the CCP initialization failed instead of unavailability of the CCP device. SEV support has been accepted in upstream projects but haven't been updated in current bytelinux kernel.White List : ccp initialization failed
+SEV: failed to INIT error 0x13Black List : 缺省</p><br><p>64. xhci_hcd 0004:03:00.0: Zeroing 64bit base registers, expecting fault</br>解答：5.4.56内核中关于Renesas USB3.0 controller driver的正常打印，当前Ampere平台采用Renesas USB chip.White List : xhci_hcd 0004:03:00.0: Zeroing 64bit base registers, expecting faultBlack List : 缺省</p><br><p>65. sbsa-gwdt sbsa-gwdt.0: Initialized with 10s timeout @ 25000000 Hz, action=0</br>解答：Ampere平台，The Server Base System Architecture (SBSA) is a hardware system architecture for servers based on 64-bit ARM processors. SBSA-gwdt(Server Base System Architecture) Generic Watchdog driver，表示该驱动初始化timeout时间为10sWhite List : sbsa-gwdt sbsa-gwdt.0: Initialized with 10s timeout @ 25000000 Hz, action=0Black List : 缺省</p><br><p>66. Shutdown timeout set to</br>解答：nvme初始化时设置的超时时间，当前可先忽略。NVMe driver会在nvme_init_identify时，发送NVME_ID_CNS_CTRL命令给NVME FW。如果NVMe FW返回值中rtd3e值是0（default: 30 seconds）就不会提示该信息，如果FW返回值中rtd3e值是1，就会"Shutdown timeout set to 15 seconds"White List : Shutdown timeout set toBlack List : 缺省</p><br><p>67. flags: flush_fail</br>解答：只针对BPS套餐 Memory Mode配置下的非正常关机情况
+BPS has its own mechanism to judge if current power down is dirty or not. If it’s dirty, BPS will record it and upon next power up, Dmesg will print ‘flush_fail’. 
+‘Flush_fail’ only means a dirty shutdown was observed in previous power cycle. So, it’s only literally meaningful in AD mode (WPQ flush will happen). In MM mode it can be safely ignored. 
+In ODM's flush_fail case, when they were doing DC cycle test, they were using ipmitool. It will directly cut off on board PMIC power so it’s not a graceful shutdown. With this test method there will be high chance that BPS reports dirty shutdown. After finding out this ODM has switched to graceful shutdown and test result is clean.White List : flags: flush_failBlack List : 缺省</p><br><p>68. (with Cmd Compl erratum)</br>解答：Intel的错误勘测表，显示Intel CF118错误勘测表的寄存器状态White List : (with Cmd Compl erratum)Black List : 缺省</p><br><p>69. EXT4-fs (nvme0n1p2): re-mounted. Opts:</br>解答：mount参数，盘出现error后的执行动作White List : EXT4-fs (nvme0n1p2): re-mounted. Opts:Black List : 缺省</p><br><p>70. i801_smbus .*: SMBus using PCI interrupt</br>解答：正常打印信息，因为interrupt关键词被拦截White List : i801_smbus .*: SMBus using PCI interruptBlack List : 缺省</p><br><p>71. kvm [1]: vgic interrupt IRQ1</br>解答：Ampere平台特有信息，正常打印信息，因为interrupt关键词被拦截White List : kvm [1]: vgic interrupt IRQ1Black List : 缺省</p><br><p>72. ACPI: Using GIC for interrupt routing</br>解答：正常打印信息，因为interrupt关键词被拦截White List : ACPI: Using GIC for interrupt routingBlack List : 缺省</p><br><p>73. ACPI: Using IOAPIC for interrupt routing</br>解答：正常打印信息，因为interrupt关键词被拦截White List : ACPI: Using IOAPIC for interrupt routingBlack List : 缺省</p><br><p>74. ACPI: PCI Interrupt Link [LNKA] (IRQs 4 5 7 10 11 14 15) *0</br>解答：正常打印信息，因为interrupt关键词被拦截White List : ACPI: PCI Interrupt Link [LNKA] (IRQs 4 5 7 10 11 14 15) *0Black List : 缺省</p><br><p>75. EDAC MC.*: Giving out device to module i10nm_edac controller Intel_10nm Socket</br>解答：intel平台edac driver解析内存位置的信息，interrupt代表PCI工作在中断模式，为正常打印。唯一问题是正常应该要解析到具体内存位置信息，当前未上报是因为缺少Intel 10nm EDAC patchWhite List : EDAC MC.*: Giving out device to module i10nm_edac controller Intel_10nm SocketBlack List : 缺省</p><br><p>76. vfio_mdev: Unknown symbol mdev_unregister_driver (err -22)
+vfio_mdev: Unknown symbol mdev_register_driver (err -22)
+vfio_mdev: disagrees about version of symbol mdev_unregister_driver
+vfio_mdev: disagrees about version of symbol mdev_register_driver</br>解答：nvidia 的vgpu驱动依赖vfio-mdev，如果insmod了mlnx驱动编译驱动mdev和vfio-mdev，vgpu驱动加载会失败，内核自带的mdev和mlnx下编译的mdev代码不一致，有冲突White List : vfio_mdev: Unknown symbol mdev_unregister_driver (err -22)
+vfio_mdev: Unknown symbol mdev_register_driver (err -22)Black List : 缺省</p><br><p>77. Error: Driver 'pcspkr' is already registered, aborting...</br>解答：PC蜂鸣器驱动冲突的问题White List : Error: Driver 'pcspkr' is already registered, aborting...Black List : 缺省</p><br><p>78. Alternate GPT is invalid, using primary GPT</br>解答：怀疑硬盘之前创建过分区表，且跑fio把分区表破坏掉了，导致日志中有Alternate GPT is invalid, using primary GPT。可以使用指令fdisk /dev/sdx 查看分区表是否被破坏了。建议待测盘不带分区表进行fio测试。
+可以使用hdparm进行硬盘安全擦除后进行尝试。BUG ID：151642White List : 缺省Black List : Alternate GPT is invalid, using primary GPT</p><br><p>79. sd 0:2:9:0: [sdi] tag#116 BRCM Debug mfi stat 0x2d, data len requested/completed 0x100000/0xc9a00
+sd 0:2:9:0: [sdi] tag#116 FAILED Result: hostbyte=DID_OK driverbyte=DRIVER_SENSE cmd_age=1s
+sd 0:2:9:0: [sdi] tag#116 Sense Key : Medium Error [current]
+sd 0:2:9:0: [sdi] tag#116 Add. Sense: Read retries exhausted
+sd 0:2:9:0: [sdi] tag#116 CDB: Read(10) 28 00 1f d4 60 00 00 08 00 00
+blk_update_request: critical medium error, dev sdi, sector 534013517 op 0x0:(READ) flags 0x0 phys_seg 4 prio class 0
+sd 9:0:7:0: [sdw] tag#3324 FAILED Result: hostbyte=DID_OK driverbyte=DRIVER_SENSE cmd_age=1s
+sd 9:0:7:0: [sdw] tag#3324 Sense Key : Medium Error [current]
+sd 9:0:7:0: [sdw] tag#3324 Add. Sense: Read retries exhausted
+sd 9:0:7:0: [sdw] tag#3324 CDB: Read(10) 28 00 87 ec 98 00 00 08 00 00
+blk_update_request: critical medium error, dev sdw, sector 2280430976 op 0x0:(READ) flags 0x0 phys_seg 5 prio class 0</br>解答：硬盘单盘问题，更换硬盘解决。BUG ID：147090White List : 缺省Black List : critical medium error, dev sdi, sector 534013517 op 0x0:(READ) flags 0x0 phys_seg 4 prio class 0</p><br><p>80. [Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 0
+[Hardware Error]: It has been corrected by h/w and requires no further action
+[Hardware Error]: event severity: corrected
+[Hardware Error]: Error 0, type: corrected
+[Hardware Error]: section_type: PCIe error
+[Hardware Error]: port_type: 4, root port
+[Hardware Error]: version: 3.0
+[Hardware Error]: command: 0x0547, status: 0x0010
+[Hardware Error]: device_id: 0000:b7:01.0
+[Hardware Error]: slot: 29
+[Hardware Error]: secondary_bus: 0xb8
+[Hardware Error]: vendor_id: 0x8086, device_id: 0x352a
+[Hardware Error]: class_code: 000406
+[Hardware Error]: bridge: secondary_status: 0x2000, control: 0x0013
+pcieport 0000:b7:01.0: aer_status: 0x00000001, aer_mask: 0x00000000
+pcieport 0000:b7:01.0: [ 0] RxErr (First)
+pcieport 0000:b7:01.0: aer_layer=Physical Layer, aer_agent=Receiver ID</br>解答：初步定位为网卡单体问题，更换网卡后解决。  BUG ID：149814White List : 缺省Black List : Hardware Error</p><br><p>81. systemd-udevd[2410]: Process '/usr/bin/killall -SIGHUP irqbalance' failed with exit code 1.</br>解答：此日志出现在不关闭irqbalance服务而重读配置文件失败，irqbalance服务用于优化中断分配，提升性能。此日志对实际使用无影响，可忽略。White List : systemd-udevdBlack List : 缺省</p><br><p>82. not GsPlugin error g-io-error-quark:1: Error when getting information for file “/root/.cache/gnome-software/shell-extensions/gnome.json”: No such file or directory</br>解答：是预期的行为。当命令行管理程序扩展元数据不可用时，将显示这些消息。它每天自动下载一次，或在需要时自动下载。这是一个无害的警告，可以忽略不计。White List : not GsPlugin error g-io-error-quarkBlack List : 缺省</p><br><p>83. journal：not handling error download-failed for action refresh：failed to download https://extensions.gnome.org//static/extensions.json:Connection terminated unexpectedly</br>解答：缺少gnome-shell需要软件，可通过安装工具解决：# yum update --advisory=RHSA-2021:4381             rhel官网链接如下：https://access.redhat.com/solutions/6251011White List : not handling error download-failedBlack List : 缺省</p><br><p>84. pmlogger_daily failed - see /var/log/pcp/pmlogger/pmlogger_daily-K.log</br>解答：系统下性能监控工具，对系统使用无影响，可忽略。White List : pmloggerBlack List : 缺省</p><br><p>85. gdm-x-session[5818]: #011(WW) warning, (EE) error, (NI) not implemented, (??) unknown.</br>解答：gdm为图形界面，该信息与后面的log为Linux图形界面输出的log信息，该日志不是问题，可忽略。White List : gdm-x-sessionBlack List : 缺省</p><br><p>86. NetworkManager[4563]:[1648621486.0598] dhcp4 (enp1s0f0): activation: beginning transaction (timeout in 90 seconds)</br>解答：该日志不是问题，提示networkmanager在90秒内超时，不是问题，可忽略。White List : timeoutBlack List : 缺省</p><br><p>87. SATA link down (SStatus 4 Scontrol 300)</br>解答：此消息为该SATA口没接相应的设备，该日志不是问题。White List : SSATA link downBlack List : 缺省</p><br><p>88. journal:Error looking up permission:GDBus.Error:org.freedesktop.portal.Error.NotFound:No entry for geolocation.</br>解答：禁用GNOME位置服务时会出现此消息，可以安全的忽略此消息。在rhel官网有相应的说明：https://access.redhat.com/solutions/4831511White List : freedesktopBlack List : 缺省</p><br><p>89. invalid short VPD tag XX at offset X</br>解答：此消息为抓取网卡的信息，VPD信息的响应问题，与测试无关，可忽略。在rhel官网有相应的说明：https://access.redhat.com/solutions/3001451White List : invalid short VPD tag XX at offset XBlack List : 缺省</p><br><p>90. Failed to initialize NVML: Driver/library version mismatch</br>解答：GPU驱动和NVML版本不匹配导致有关，可从官网搜索与系统匹配驱动进行安装。White List : 缺省Black List : Driver mismatch</p><br><p>91. Activation via systemd failed for unit 'dbus-org.freedesktop.resolve1.service': Unit dbus-org.freedesktop.resolve1.service not found.</br>解答：依照Redhat官网bug解释：
+该问题出现原因为：
+系统未开启systemd-resolved服务，网络管理器服务会尝试在操作系统引导中启动指向systemd-resolved符号链接。
+解决方法：
+1.# systemctl enable systemd-resolved.service
+2.# vi /etc/NetworkManager/NetworkManager.conf
+[main]
+systemd-resolved=falseWhite List : 缺省Black List : dbus-org.freedesktop</p><br><p>92. Buffer I/O error on dev sdj，logical block 0,async page read
+blk_update_request: I/O error, dev sdj, sector 0 op 0x0: (READ) flags 0X0 phys_seg 1 prio class 0</br>解答：硬盘单体问题，更换硬盘测试问题解决（可请部件同事进行硬件状态定位）White List : 缺省Black List : Buffer I/O error</p><br><p>93. ata13.00:Enabling discard_zeroes_data</br>解答：待解决（bug ID：145706）White List : 缺省Black List : 缺省</p><br><p>94. GPT:Primary header thinks Alt. header is not at the end of the disk.
+GPT:585937499 != 1169686527
+GPT:Alternate GPT header not at the end of the disk.
+GPT:585937499 != 1169686527
+GPT: Use GNU Parted to correct GPT errors.</br>解答：参考网站https://datacentersupport.lenovo.com/cy/zh/products/servers/thinksystem/sr630/solutions/ht513753-linux-logs-gpt-error-after-software-raid1-disk-is-created-with-intel-vmd-or-intel-rste-lenovo-thinksystem [^]
+
+https://bugs.launchpad.net/cirros/+bug/1605588 [^]
+
+认为该现象不是问题
+The message just means that the alternate GPT header is not at the end of the disk as Linux expects.
+不影响磁盘使用。White List : GPT headerBlack List : 缺省</p><br><p>95. When login any mirror registry(Quay, OpenShift mirror-registry tool) with podman, it populate error:
+
+Error: get credentials: loading registries configuration "/etc/containers/registries.conf": mixing sysregistry v1/v2 is not supported</br>解答：The /etc/containers/registries.conf file should not include both registry v1 and v2 format.
+
+The below format are from v1:
+[registries.search]
+registries = ['registry1.com']
+
+[registries.insecure]
+registries = ['registry2.com']
+
+[registries.block]
+registries = ['registry.untrusted.com']
+
+Replace above configuration with below v2 format instead, for example:
+[[registry]]
+location = "registry1.com"
+
+[[registry]]
+insecure = true
+location = "registry2.com"
+
+[[registry]]
+blocked = true
+location = "registry.untrusted.com"White List : 缺省Black List : registry</p><br><p>96. kernel log shows "power_meter ACPI000D:00: Found ACPI power meter."</br>解答：它被安全地忽略，因为内核中的 acpi 驱动程序已成功检测到 ACPI 功率计设备。
+此消息仅供参考，无需报警。White List : 缺省Black List : ACPI</p><br><p>97. CPU Pmax测试报wrmsr: write error: Input/output error rdmsr: read error: Input/output</br>解答：更换最新版PTU工具可解决White List : IO errorBlack List : 缺省</p><br><p>98. usb 1-14-port1: cannot reset (err = -110)
+usb 1-14-port1: Cannot enable. Maybe the USB cable is bad?（此设备为BMC下虚拟USB设备）</br>解答：USB驱动与内核不适配，需要升级USB驱动解决。（在BMC固件中进行FW更新即可）White List : 虚拟USB设备Black List : 缺省</p><br><p>99. unbound-anchor.service: permission denied error for libunbound</br>解答：rhel官网bug待解决，项目组公认 官网链接如下：https://bugzilla.redhat.com/show_bug.cgi?id=1849528                  BUG ID:0153991White List : unbound-anchor.serviceBlack List : 缺省</p><br><p>100. Alternate GPT is invalid, using primary GPT</br>解答：测试前有相应的GPT分区表，可使用hdparm/nvme format指令进行对应擦除验证。BUG ID：151642White List : 缺省Black List : Alternate GPT is invalid, using primary GPT</p><br><p>101. Uhhuh. NMI received for unknown reason 20 on CPU 80.
+Do you have a strange power saving mode enabled?
+Dazed and confused, but trying to continue</br>解答：redhat官方网站有已知kernel问题：https://bugzilla.redhat.com/show_bug.cgi?id=1598309 [^]
+项目组公认（155870）White List : NMI handerBlack List : 缺省</p><br><p>102. kernel: usb 2-5: device not accepting address 2, error -71
+kernel: hub 2-5:1.0: set hub depth failed
+kernel: usb 2-5: Failed to suspend device, error -19
+kernel: usb 1-6: device descriptor read/all, error -71（系统日志下有关于USB的日志报错）</br>解答：待解决  （可根据机台所接USB相关设备进行排除）White List : 缺省Black List : 缺省</p><br><p>103. NMI handler (perf_event_nmi_handler) took too long to run: 2.757 msecs
+NMI handler (ghes_notify_nmi) took too long to run: 5.027 msecs
+NMI handler (nmi_cpu_backtrace_handler) took too long to run: 2.349 msecs</br>解答：此问题产品经理确认需求是根据根据Intel回复执行，只需要关注SHC工具的log输出结果是通过即可，此报错忽略。BUG ID：156136White List : NMI handerBlack List : 缺省</p><br><p>104. scsi 20:0:0:0: rejecting I/O to dead device  （此设备为EMMC）</br>解答：BMC同事的解释在挂载BMC的Emmc到系统，同时重启BMC的测试中，出现该问题属于正常现象White List : EMMCBlack List : 缺省</p><br><p>105. audit: type=1400 audit(1669278123.690:67570): avc:  denied  { read } for  pid=3269154 comm="awk" name="libprocesshider.so" dev="sda4" ino=56296130 scontext=system_u:system_r:ksmtuned_t:s0 tcontext=unconfined_u:object_r:var_lib_t:s0 tclass=file permissive=0</br>解答：该日志为linux系统中selinux的问题，关闭selinux即可，具体操作如下：
+修改/etc/selinux/config 文件中的SELINUX=""为disable，然后重启。或使用命令setenforce 0
+注：
+setenforce 1 设置SELinux 成为 enforcing模式
+setenforce 0 设置SELinux 成为 permissive模式
+在lilo或者grub的启动参数中增加： selinux=0，也可以关闭selinux
+
+查看SELinux命令：getenforce；
+关闭SELinux命令：setenforce 0.White List : 缺省Black List : 缺省</p><br><p>106. 虚拟设备报错：
+i801_smbus 0000:00:1f.4: Failed to allocate irq 0: -16
+idxd 0000:6a:01.0: iommu sva bind failed: -19
+idxd 0000:6a:01.0: Failed to enable PASID. No SVA support: -19</br>解答：messages下虚拟内存虚拟设备报错，项目组（南海）已公认,BUG ID:144254White List : idxdBlack List : 缺省</p><br><p>107. blk_update_request: critical medium error, dev sdl, sector 1515256 op 0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+[ 4911.063925] sd 18:0:9:0: [sdl] tag#146 FAILED Result: hostbyte=DID_OK driverbyte=DRIVER_SENSE cmd_age=
+[ 4911.063933] sd 18:0:9:0: [sdl] tag#146 Sense Key : Medium Error [current]
+[ 4911.063936] sd 18:0:9:0: [sdl] tag#146 Add. Sense: Unrecovered read error
+[ 4911.063939] sd 18:0:9:0: [sdl] tag#146 CDB: Read(10) 28 00 00 17 1e 00 00 02 00 00</br>解答：硬盘单体问题，更换硬盘测试问题解决（可请部件同事查看硬盘状态）White List : 缺省Black List : unrecovered read error</p><br><p>108. kernel: Disabling IRQ #16</br>解答：该问题为SMBUS控制器的IntR没有正确分配导致，需要BIOS工程师给smbus控制器导入正确的IntR   BUG  ID:150765White List : IRQBlack List : 缺省</p><br><p>109. Failed to set physical link up, error -1</br>解答：出现该问题应先检查光模块厂商与网卡是否匹配，若不匹配更换与网卡匹配光模块即可。White List : 缺省Black List : 缺省</p><br><p>110. ACPI PCI Interrupt Link disable</br>解答：该信息不是报错信息，只是表示当前设备没有用作IRQ，正常现象。White List : ACPI PCI  linkBlack List : 缺省</p><br><p>111. pmlogger.service：Failed with result 'signal'
+pmlogger.service：Failed with result ‘protocol’
+Failed to start Performance Metrics Archive Logger.
+pmcd_wait failed in /usr/libexec/pcp/lib/pmie: exit status: 2
+pmie.service: Failed with result 'exit-code'.</br>解答：看一下系统下开没开pmlogger.service ,可以尝试开一下，要是没有这个服务或者开了不起作用，可以忽略，这个对系统没有影响，只是一个性能监控工具。
+操作方法：
+yum reinstall pcp
+systemctl start pmcd
+systemctl start pmlogger
+如果服务无法正常重启/开启/禁用等操作，请尝试：
+yum remove pcp
+systemctl start pmcd
+systemctl start pmlogger
+
+https://access.redhat.com/solutions/7030598White List : pmcd.service
+pmlogger.serviceBlack List : 缺省</p><br><p>112. kernel: auxiliary: module verification failed: signature and/or required key missing-trainting kernel</br>解答：当使用Redhat以外供应商提供的驱动程序模块时，此类消息是预期的，不是问题，可以忽略。White List : module verfication failedBlack List : 缺省</p><br><p>113. Failed to reset fd limit before activating service：org.freedesktop.DBus.Error.AccessDenied:Failed to restore old fd.limit:Operation not permitted.</br>解答：此警告的影响只是表面影响，不会影响DBUS或依赖于DBUS的系统服务，可以通过更新dbus安装包以及相应的依赖包进行解决。White List : 缺省Black List : 缺省</p><br><p>114. R840_s5 NetworkManager[7089]:[1649661226.9405] device (usb0): state change: ip-config -> failed (reason 'ip-config-unavailable', sys-iface-state: 'managed')
+R840_s5 NetworkManager[7089]:[1649661226.9525] device (usb0): Activation: failed for connection 'usb0'
+R840_s5 NetworkManager[7089]:[1649661226.9545] device (usb0): state change: failed -> disconnected (reason 'none', sys-iface-state: 'managed')</br>解答：该问题为USB0为BMC redfish所虚拟出来的，需要BIOS进行修改策略修改，将策略修改为BIOS下需要使用USB0时打开，不需要时关闭即可。White List : 缺省Black List : 缺省</p><br><p>115. kernel: ACPI: PCI Interrupt Link [LNKA] (IRQs 3 4 5 6 7 9 10 11 12 14 *15), disabled.</br>解答：该信息不是报错信息，只是表示当前设备没有用作IRQ，正常现象。White List : 缺省Black List : 缺省</p><br><p>116. 4xxx 0000:6b:00.0: QAT: Failed to enable AER, error code -5</br>解答：在测试QAT功能的时候可以修改Setup选项：Platform Configuration->Runtime Error logging->IIO Error Enabling->OS Native AER support = Enable"可以解决driver AER 报错的问题（仅支持有QAT功能的CPU）White List : 缺省Black List : 缺省</p><br><p>117. systemd-vconsole-setup[2089]:KD_FONT_OP_GET failed while trying to get the font metadata:Invalid argument</br>解答：此问题发生在启动时间。检查消息“systemd-vconsole-setup：KD_FONT_OP_GET尝试从 /var/log/消息文件获取字体元数据时失败：函数未实现”。
+解决方案：
+系统完全启动后，手动运行该命令不会在控制台输出或 /var/log/消息中产生任何错误。
+/usr/lib/systemd/systemd-vconsole-setup
+这是一条仅供参考的消息，不是问题，原因是OS切换控制台期间，引导调用相关服务失败，会产生相应的提示，等切换完成，引导成功后，就不再打印相关信息。White List : 缺省Black List : 缺省</p><br><p>118. qat_hal_clr_reset error
+QAT：failed to get device out of reset
+4xxx 0000:6b:00.0:Failed to init the AEs
+4xxx 0000:6b:00.0:Failed to initialise Acceleration Engine
+4xxx 0000:6b:00.0:failed with error -14</br>解答：1.首先要在DCL中检查CPU是否支持QAT；
+2.支持QAT的可以通过安装驱动（QAT20.L.0.9.1-00018.tar.gz）可以解决此问题。White List : 缺省Black List : 缺省</p><br><p>119. Dependency failed for Creates ABRT problems from coredumpctl messages.
+abrt-journal-core.service:Job abrt-journal-core.service/start failed with result 'dependency'.</br>解答：此日志可根据机台实际情况来分析，可查看系统下服务是否开启（systemctl status abrtd.service)，若此服务没有开启，可将此日志忽略处理。White List : 缺省Black List : 缺省</p><br><p>120. mdmonitor.service:Failed with result 'protocol'
+Failed to start Software RAID monitoring and management</br>解答：Rhel官网回复：该服务在安装程序ISO上处于禁用状态，但如果连接了RAID，则仍会尝试启动它，这会导致日志和控制台中出现错误。正常分区的驱动器不会出现错误，仅在RAID设备上安装时出现错误。 mdmonitor systemd
+此日志根据机台实际情况来分析，若机台中无RAID卡或其它关于软RAID的相关设备，可查看系统下的服务是否开启（systemctl status mdmonitor)，若此服务没有开启，可将此日志忽略处理。White List : 缺省Black List : 缺省</p><br><p>121. 服务器正常开机，外接显示器，用init 5从字符界面到图形界面会黑屏</br>解答：nouveau驱动未安装，从黑名单移除nouveau后，可以正常切换图形界面
+solution：/etc/modprobe.d/blacklist.conf         移除nouveauWhite List : 缺省Black List : 缺省</p><br><p>122. 配置USB外挂USB跑FIO，出现外挂的SSD全部丢失</br>解答：可采用外接供电的盘盒进行验证，依据验证结果确认是否与供电有关。此bug与OS兼容性无关。White List : 缺省Black List : 缺省</p><br><p>123. BMCweb页面，勾选模拟 EMMC/SD 媒体作为主机 USB 磁盘 选项保存后，系统处于命令行状态，分区1未默认挂载；因此使用sf -h指令看不到分区1，必须手动挂载；
+当系统处于图形界面，web页面勾选模拟 EMMC/SD 媒体作为主机 USB 磁盘 选项保存后，分区1会自动挂载；</br>解答：挂载行为是系统的行为，部分系统可以实现自动挂载，部分系统必须经过手动挂载，这个行为取决于系统的权限控制，可以接受手动挂载，对使用并不影响。White List : 缺省Black List : 缺省</p><br><p>124. KVM下执行软关机后，GPU报错“failed to suspend async:error -5”</br>解答：咨询NV后，NV认为有进程在占用GPU，导致的BMC Web界面的软关机未完成，对OS层面没有影响，不做修改。White List : suspend async: error -5Black List : 缺省</p><br><p>125. [system] Activation via systemd failed for unit 'dbus-org.freedesktop.resolve1.service': Unit dbus-org.freedesktop.resolve1.service not found.</br>解答：该问题出现原因为：
+系统未开启systemd-resolved服务，网络管理器服务会尝试在操作系统引导中启动指向systemd-resolved符号链接。
+解决方法：
+1.# systemctl enable systemd-resolved.service
+2.# vi /etc/NetworkManager/NetworkManager.conf
+[main]
+systemd-resolved=falseWhite List : 缺省Black List : Unit dbus-org.freedesktop.resolve1.service not found.</p><br><p>126. systemd-vconsole-setup: KD_FONT_OP_GET failed while trying to get the font metadata:Function not implemented
+systemd-vconsole-setup:Fonts will not be copied to remaining consoles</br>解答：该问题的原因是OS切换控制台期间，引导调用相关的服务失败，会产生相应的提示，等切换完成，引导成功后，就不再打印相关信息。
+这是一条仅供参考的消息，不是问题。White List : 缺省Black List : 缺省</p><br><p>127. python[3744]: pcilib: sysfs_read_vpd: read failed: Input/output error</br>解答：该报错为OS尝试读取PCIE设备的VPD信息时失败导致的，对系统稳定运行和客户使用不会造成影响White List : 缺省Black List : 缺省</p><br><p>128. invalid short VPD tag XX at offset X after boot</br>解答：此信息为LSI card信息读取时报错，为VPD读数问题，与测试无关，可忽略。White List : 缺省Black List : 缺省</p><br><p>129. kernel：i801_smbus 0000:00:1f.4：Failed to allocate irq 0：-16</br>解答：i801要分的中断信号已经被BIOS分给别的设备了，所有会出现此报错，解决办法如下：
+#modinfo i2c_i801 | grep parm -A5
+parm：   disable_features:Disable selected driver features:
+          0x01 disable SMBus PEC
+          0x02 disable the block buffer
+          0x08 disable the I2C block read functionality
+          0x10 don't use interrupts        <= ------
+          0x20 disable SMBus Host Notify (uint)
+     &Create module options file
+# cat /etc/modprobe.d/i2c-i801.conf
+options i2c-i801 disable_features=0x10
+
+Perform reboot and Inspect
+i2c-i801 driver can work without interrupts.White List : 缺省Black List : BIOS 信号抓取问题(解决办法已经备注)</p><br><p>130. perf: interrupt took too long (4912 > 4908), lowering kernel.perf_event_max_sample_rate to 40000</br>解答：这是信息性的，它与内核中包含的 Linuxperf 工具有关。内核自动确定可以使用的采样率，而不会对系统性能产生太大影响;即使 Perf 未处于活动状态，甚至未安装，它也会记录此情况。此日志不是问题，Redhat bug链接如下：https://bugzilla.redhat.com/show_bug.cgi?id=1013708
+此消息是一个警报，perf采用会占用CPU，默认限制最大是perf_cpu_time_max_percent。超过这个阈值就会报出告警。并调整采样速率。
+官网bug链接如下：
+https://access.redhat.com/solutions/1169163 [^]
+可以通过调整内核参数解决：
+echo 0 > /proc/sys/kernel/perf_cpu_time_max_percent
+echo 10000 > /proc/sys/kernel/perf_event_max_sample_rate
+备注：
+　　perf_cpu_time_max_percent：    perf分析工具最大能够占用CPU性能的百分比0：不监控CPU占用率；1~100：百分比值
+　　perf_event_max_sample_rate：    设置perf_event的最大取样速率，默认值为100000White List : perf interrupt took too longBlack List : 缺省</p><br><p>131. CentOS7.6见过这个报错不kernel: hardware_error_device PNP0C33:00: hash matches</br>解答：这不是硬件问题，而是ACPI硬件错误设备（PNP0C33）驱动程序信息，该驱动程序支持硬件错误设备（PNP0C33），该硬件错误设备用于报告通过SCI通知的某些硬件错误。White List : 缺省Black List : 缺省</p><br><p>132. X640 s3使用PXE安装RHEL 8.3系统时出现卡死现象</br>解答：SOL打印串口信息中：nouveau 0000:50:00.0: PCI INT A: no GSI
+[ 31.173810] nouveau 0000:50:00.0: unknown chipset (170000a1)
+[ 31.180169] BUG: unable to handle kernel NULL pointer dereference at 0000000000000000，尝试在grub中增加参数 nomodeset nouveau ，redhat8u3 可以进去系统White List : 缺省Black List : 缺省</p><br><p>133. 安装windows 2019，安装完成后自动重启过程中，界面出现黑框显示异常</br>解答：不做修改，后续有需求再增加，关闭问题White List : 缺省Black List : 缺省</p><br><p>134. 安装Ubuntu18.04及Debian10.10时，使用95系列控制器识别不到盘</br>解答：Ubuntu 18.04和Debian 10.10 没有9560系列和9500系列卡的驱动，导致无法使用硬盘White List : 缺省Black List : 缺省</p><br><p>135. systemd-vconsole-setup: /usr/bin/setfont failed with error code</br>解答：待解决
+/ usr / bin / setfont只能在framebuffer控制台上设置字体，并且如果它在udev之前运行（在我的情况下，它调出radeon模块，而radeon模块又调出fb控制台）它无法在非fb控制台上设置字体。White List : 缺省Black List : systemd-vconsole-setup: /usr/bin/setfont failed with error code</p><br><p>136. sh: cat: write error: Broken pipe</br>解答：脚本有语法错误White List : 缺省Black List : sh: cat: write error: Broken pipe</p><br><p>137. kernel: ERST: Error Record Serialization Table (ERST) support is initialized.</br>解答：该消息可以安全地忽略。它纯粹是信息性的
+这是在初始化“错误记录序列化表（ERST）”时打印的参考消息。
+ERST是APEI（ACPI平台错误接口）提供的一种方法，用于在某些简单的持久性存储（例如NVRAM（非易失性RAM））中保存和检索硬件错误记录。White List : kernel: ERST: Error Record Serialization Table (ERST) support is initialized.Black List : 缺省</p><br><p>138. dracut: microcode_ctl: kernel version ".0-elx86_64" failed early load check for "intel-06-4f-01", skip
+ping</br>解答：1.可以忽略该消息。
+2.或者可以通过创建一个空文件来强制应用微码更新/etc/microcode_ctl/ucode_with_caveats/force-intel---.
+If the logs shows "intel-06-4f-01" create an empty file as below:
+/etc/microcode_ctl/ucode_with_caveats/force-intel-06-4f-01
+3.根因：
+a. 该消息按dracut模块显示为模块microcode_ctl。该消息意味着它/usr/share/microcode_ctl/ucode_with_caveats/intel---不包含在initramfs映像文件中，因为微代码不适合内核 和/或已安装的CPU
+b. Broadwell-EP CPU（系列 6，型号 79，stepping 1 或 06-4f-01）存在已知问题，在应用微码更新时可能导致系统锁定或冻结，因此，此微码更新在最新版本中被列入黑名单microcode_ctl rpm。这force-intel-06-4f-01上面提到的文件可以覆盖黑名单。警告：仅在测试您的系统并验证您的系统在应用更新时不会冻结后才创建强制文件。White List : dracut microcode_ctl kernel version failed early load check for skippingBlack List : 缺省</p><br><p>139. network: [FAILED]</br>解答：可忽略报错，可能是出现报错的网口插拔网线导致White List : network: FAILEDBlack List : 缺省</p><br><p>140. kernel: usb 1-4: device descriptor read/all, error -110</br>解答：USB设备插拔导致，error-110，实际上式连接超时的错误，可能是USB2.0驱动有问题，和USB相关的模块是ehci_hcd模块，可以通过lsmod命令查看当前的kernel是否加载ehci_hcd模块，若加载了可以使用modeprobe -r ehci_hcd把该模块卸载掉，之后再试试看设备能否被发现；如果还是不行，你找到系统的开机脚本在开机的时候不加载ehci_hcd模块，White List : 缺省Black List : kernel usb 1-4 device descriptor read/all error -110</p><br><p>141. ERST: Error Record Serialization Table (ERST) support is initialized.</br>解答：该消息可以安全地忽略。它纯粹是信息性的
+这是在初始化“错误记录序列化表（ERST）”时打印的参考消息。
+ERST是APEI（ACPI平台错误接口）提供的一种方法，用于在某些简单的持久性存储（例如NVRAM（非易失性RAM））中保存和检索硬件错误记录。White List : ERST: Error Record Serialization Table (ERST) support is initialized.Black List : 缺省</p><br><p>142. smartd]: DEVICESCAN failed: glob(3) aborted matching pattern /dev/discs/disc*</br>解答：smartd会扫描设备，并在未找到sd *设备（不存在磁盘硬件）的情况下进行扫描，然后尝试查找/ dev / discs / disc *，由于语法确实很旧并且不再常用，因此也会失败。
+因此，可以安全地忽略该消息-意味着在正常情况下找不到磁盘硬件。White List : smartd] DEVICESCAN failed glob(3) aborted matching pattern /dev/discs/disc*Black List : 缺省</p><br><p>143. journal: g_array_unref: assertion 'array' failed</br>解答：g_array_unref只是警告，实际上不应导致任何段错误或崩溃White List : 缺省Black List : journal g_array_unref assertion 'array' failed</p><br><p>144. NetworkManager]:. audit: op="connection-activate" uuid="63c2166d-becd-4e70-a133-1a3c5aed57ba" name="enp97s0f1" result="fail" reason="No suitable device found for this connection."</br>解答：可忽略报错，可能是出现报错的网口插拔网线导致White List : No suitable device found for this connectionBlack List : 缺省</p><br><p>145. systemd: Unit network.service entered failed state.</br>解答：这里的network.service的“失败”不会影响网络的可用性。这只是一种报告问题
+将NetworkManager软件包更新为NetworkManager-1.0.6-27.el7或更高版本可解决此问题。White List : systemd Unit network.service entered failed stateBlack List : 缺省</p><br><p>146. systemd: Failed to start LSB: Bring up/down networking.</br>解答：这里的network.service的“失败”不会影响网络的可用性。这只是一种报告问题
+将NetworkManager软件包更新为NetworkManager-1.0.6-27.el7或更高版本可解决此问题。White List : systemd Failed to start LSB Bring up/down networkingBlack List : 缺省</p><br><p>147. network: Bringing up interface enp97s0f1: Error: Connection activation failed: No suitable device found for this connection.</br>解答：可忽略报错，可能是出现报错的网口插拔网线导致White List : Error Connection activation failedBlack List : 缺省</p><br><p>148. tsc: Fast TSC calibration failed</br>解答：内核可以将CPU上的TSC用作快速的“时间源”。此消息表示由于某种原因校准失败。如果出现此消息，系统将通过其他方式完成校准。可以安全地忽略此消息White List : TSCBlack List : 缺省</p><br><p>149. systemd: network.service failed</br>解答：该报错可忽略，出现原因可能是网口设置了自动连接，但是未连接网线；测试过程中插拔网线也会导致出现该报错信息White List : network.service failedBlack List : 缺省</p><br><p>150. kernel: sd 0:0:4:0: sde] FAILED Result: hostbyte=DID_NO_CONNECT driverbyte=DRIVER_OK</br>解答：需要查看是否有硬盘offline问题，设备可能处于连接丢失或失败太多IO命令后的状态。https://access.redhat.com/solutions/163203White List : 缺省Black List : kernel</p><br><p>151. kernel: blk_update_request: I/O error, dev sde, sector 1676014592</br>解答：待解决White List : 缺省Black List : I/O error</p><br><p>152. hardware_error_device PNP0C33:00: hash matches</br>解答：It is NOT a hardware issue, it is ACPI Hardware Error Device (PNP0C33) Driver information，https://access.redhat.com/solutions/3306961White List : YBlack List : 缺省</p><br><p>153. rngd:read error</br>解答：rngd：尝试访问不存在的设备时出现“读取错误”警告。
+可通过rng-tools-5-13.el7（RHBA-2018：0698）或更高版本解决此问题。
+安装新的软件包版本会将错误消息从“读取错误”更改回错误消息的先前形式：“无法打开文件：/ dev / tpm0”
+使用kernel-3.10.0-514.16.1.el7发行版引导系统White List : 缺省Black List : rngd:read error</p><br><p>154. moudule_register_init:MOD_LOAD(vesa,0xffffffff8101c950，0)error 19以及pcib0：_OSC returned error 0x10</br>解答：系统兼容性问题，此报错仅代表该系统不支持PCI Express Advanced Error Reporting功能White List : moudule_register_init:MOD_LOAD(vesa,0xffffffff8101c950，0)error 19以及pcib0：_OSC returned error 0x10Black List : 缺省</p><br><p>155. FATAL: Error running install command for bridge</br>解答：先install ipv6 /bin/true在/etc/modprobe.d/local.conf没有允许的IPv6模块正确加载，然后与桥模块的干扰。由于网桥模块在某种程度上依赖于IPv6，因此不会加载，从而导致此故障。
+install ipv6 /bin/true从中删除/etc/modprobe.d/*White List : 缺省Black List : N/AFATAL: Error running install command for bridge</p><br><p>156. Could not initialize VPMU for cpu0，error -95</br>解答：该报错是无害的，详情见：https ://patchwork.kernel.org/patch/9255277/ [ ^ ]White List : Could not initialize VPMU for cpu0，error -95。Black List : 缺省</p><br><p>157. systemd[1]: Failed to insert module 'autofs4'</br>解答：该问题为该系统问题，无修复。具体参考该系统bug解决记录：https://bugs.xenserver.org/browse/XSO-712 [^]White List : 缺省Black List : systemd[1]: Failed to insert module 'autofs4'</p><br><p>158. dpc: probe of 0000:60:03.1:pcie010 failed with error -524</br>解答：DPC error containment capabilities -- 是一个pcie capability的名称，不算报错；且ubuntu18.10不会出现该报错White List : 缺省Black List : dpc: probe of 0000:60:03.1:pcie010 failed with error -524</p><br><p>159. gnome-session[PID]:WARNING: Failed to send buffer</br>解答：gnome-session不会因此引发任何错误，因此该消息无害White List : WARNING: Failed to send bufferBlack List : 缺省</p><br><p>160. Critical Interrupt | Bus Correctable error</br>解答：经log分析log指向DMI，由SI测试发现DMI信号不过 solution:根据SI提供的调优参数对DMI margin进行调优White List : 缺省Black List : Critical Interrupt | Bus Correctable error</p><br><p>161. mcelog:Family 6 model 55 cpu：only decoding architect error</br>解答：系统自带的mcelog工具较低，同新款CPU兼容性问题，可以通过升级mcelog版本，在mcelog工具官网http://www.mcelog.org/download.html [^]下载最新版本mcelog-154.tar.gzWhite List : 缺省Black List : mcelog:Family 6 model 55 cpu：only decoding architect error</p><br><p>162. Linux dbus-daemon:nss-ldap:do_open:do_start_tls failed:stat=-1</br>解答：正常信息，对系统没有影响，dbus-daemon通常是开始的第一件事。网络建立不久。因此，如果您的LDAP服务器不在本地主机上运行，​则始终会收到该错误消息。而且，如果您的LDAP服务器位于localhost上，则由于IIRC的其他一些依赖性，您仍然无法在dbus-daemon之前启动。White List : Linux dbus-daemon:nss-ldap:do_open:do_start_tls failed:stat=-1Black List : 缺省</p><br><p>163. Ignoring BGRT: failed to map image header memory</br>解答：引导图形资源表（BGRT）是可选的ACPI系统描述表。它包含系统启动时是否显示图像的信息，以及有关此类图像的更多信息。BGRT允许引导固件（UEFI固件）向操作系统提供指向图像的存储器地址的指针；在系统启动时，按[Del]键进入设置实用程序。在Advanced - > Boot Feature下，将Quit Boot选项设置为Disabled。按[F4]保存并退出。警告不再出现White List : 缺省Black List : Ignoring BGRT: failed to map image header memory</p><br><p>164. powerplay error： [powerplay] Failed to send messages 0x2d, response 0x0</br>解答：DCU单体问题，更换DCU测试问题未复现White List : 缺省Black List : powerplay error： [powerplay] Failed to send messages 0x2d, response 0x0</p><br><p>165. SERROR：{RecovComm Persist CommWake 10B8B DevExch}</br>解答：该问题是由于HIGON_SOC_ZPID和HIGON_DF_ZPID参数设置错误导致的，已修正White List : 缺省Black List : SERROR：{RecovComm Persist CommWake 10B8B DevExch}</p><br><p>166. localhost systemd-udevd: error opening USB device 'descriptors' file</br>解答：测试时插拔KVM USB导致。White List : 缺省Black List : localhost systemd-udevd: error opening USB device 'descriptors' file</p><br><p>167. ib0: Failed to modify QP to ERROR state</br>解答：1，经跟英特尔确认，导致该问题的原因如下：
+通常，在配置IPoIB接口期间，当FM尚未就绪时，您会收到警告。
+软件方面更新OPA卡OptionROM和TMM FW
+2，解决方法是：
+值得仔细检查您是否已在/ etc / network / ifcfg-ibx中启用了ipoib ipv6并正确配置了ipoib ipv6地址。
+关于IPoIB IPV6的配置，请参阅Intel_OP_Fabric_Software_IG_H76467_v9_1.pdf文档的第50页上的指南（请参见下面的链接）。
+https://www.intel.com/content/dam/support/us/en/documents/network-and-io/fabric-products/Intel_OP_Fabric_Software_IG_H76467_v9_1.pdf [ ^ ]White List : 缺省Black List : ib0: Failed to modify QP to ERROR state</p><br><p>168. couldn't create login keyring: An error occurred on the device</br>解答：当用户在不更改密匙环密码的情况下更改密码或在/ home /中发生损坏时，会发生此错误/.gnome2/keyrings/keyring.XXX文件。这将导致用户密码和密钥环密码不匹配。
+https://access.redhat.com/solutions/163333White List : couldn't create login keyring: An error occurred on the deviceBlack List : 缺省</p><br><p>169. fatal IO error 11 (Resource temporarily unavailable) on X server ":9"</br>解答：该消息表示该程序与X服务器的连接已丢失。这种情况最常见的情况是X服务器正常退出或被杀死时退出。此消息并不表示所涉程序中存在错误White List : fatal IO error 11 (Resource temporarily unavailable) on X server ":9"Black List : 缺省</p><br><p>170. nmem fail：nfit ACPI0012:00: nmem0 flags: map_fail</br>解答：分析可能是nvdimm的运行状况出了问题，需要检查其运行状态，详情可参考以下链接：
+https://access.redhat.com/documentation/zh-CN/red_hat_enterprise_linux/7/html/storage_administration_guide/troubleshooting-nvdimm [ ^ ]White List : 缺省Black List : 缺省</p><br><p>171. augenrules: failure 1</br>解答：这只是一个“信息”，而不是一个真正的fail
+This message is an informational message and it doesn't mean failures.
+It reports that the audit failure mode is set to "1 (printk)".
+
+此选项是设置内核如何处理严重错误。
+Failure mode 0=silent, 1=printk, 2=panic。默认设置1.
+https://access.redhat.com/mt/zh-hans/solutions/3343401White List : augenrules: failure 1Black List : 缺省</p><br><p>172. hfi1 0000:33:00.0: hfi1_0: fail reason 0x34: Passing lanes on local port do not meet the local link width policy</br>解答：解决中White List : 缺省Black List : 缺省</p><br><p>173. hfi1 0000:33:00.0: hfi1_0: fail reason 0x33: Link partner completed the VerifyCap state, but the passing lanes do not meet the local link width policy</br>解答：解决中White List : 缺省Black List : 缺省</p><br><p>174. nouveau：probe of 0000：d8:00.0 failed with error-12</br>解答：系统自带nouveau与nvidia显卡驱动不兼容，安装前需将nouveau加入黑名单，把驱动加入黑名单中: /etc/modprobe.d/blacklist.conf 在后面加入：
+blacklist nouveauWhite List : 缺省Black List : nouveau：probe of 0000：d8:00.0 failed with error-12</p><br><p>175. systemd[1]: Failed to insert module 'ip_tables': Operation not permitted</br>解答：系统下在/etc/selinux/config下将selinux=enable改为disable，重启，该报错消失White List : 缺省Black List : systemd[1]: Failed to insert module 'ip_tables': Operation not permitted</p><br><p>176. CACHE Level-2 Data-Read Error</br>解答：Intel RC已知问题，配置部分MTRR的流程顺序问题White List : 缺省Black List : CACHE Level-2 Data-Read Error</p><br><p>177. polkitd[155730] general protection ip:7ff7942f9cf2 sp:7ffe5b801e00 error:0 in libmozjs-17.0.so[7ff7941bb000+3b3000]</br>解答：polkitd守护程序中发生内存损坏，导致在评估javascript时崩溃。
+polkit-0.112-6.el7_2可通过RHSA-2016：0189解决此问题White List : 缺省Black List : 缺省</p><br><p>178. mce: [Hardware Error]: Machine check events logged</br>解答：It should be a bug in kernel source of RHLR 7/CentOS 7(kernel-3.10).请参考： https://www.redhat.com/archives/redhat-list/2015-March/msg00000.html [^]White List : 缺省Black List : mce: [Hardware Error]: Machine check events logged</p><br><p>179. systemd-udevd: Error running install command for lpfc</br>解答：出现报错信息的设备为Emulex的网卡,更新驱动及FW后可以解决此问题
+(be2net:11.4.1243.0;brcmfcoe:0:11.4.1246.8；FW:11.4.1246.2)White List : 缺省Black List : systemd-udevd: Error running install command for lpfc</p><br><p>180. usb_submit_urb(ctrl) failed: -19</br>解答：RHEL认为这是瞬间检测发出的，不需要特别关注
+当/ dev下的USB键盘或鼠标无响应时，将发生此消息。系统使用USB键盘，设备似乎暂时断开连接。该设备应该能够识别并再次使用而不会出现问题。这很可能是暂时的问题，可以放心地忽略它。White List : usb_submit_urb(ctrl) failed: -19Black List : 缺省</p><br><p>181. Uncorrected error Data CACHE Level-2</br>解答：message BANK 9/10/11系CHA G0 G1 G2，Intel Patch已解决。Intel WA Patch：Machine check error SAD_ERR_NON_CORRUPTING_OTHER was detected on power cycle test. Bank 9/10/11.White List : 缺省Black List : Uncorrected error Data CACHE Level-2</p><br><p>182. got potentially spurious smartcard event error：ffffe098</br>解答：这是os下的报错，意思是 得到潜在的假智能卡事件错误，根据RHEL反馈：通过搜索报错，可以确认这种日志是gnome 打出的，在bugzilla 1332997 中，研发工程师讨论认为该报错不影响使用White List : got potentially spurious smartcard event error：ffffe098Black List : 缺省</p><br><p>183. Error: Connection activation failed: No suitable device found for this connection.</br>解答：由于网口未接网线导致，属正常现象。
+MachineCheck脚本在每次Power Cycle会检查网口的状态，如与上次不同，测试则会停止；关于这个问题，假如在网络配置文件上将网络配置文件中的onboot设置为yes,而该网口又未连接网线，则可以视为系统的正常提示。White List : Error: Connection activation failed: No suitable device found for this connection.Black List : 缺省</p><br><p>184. kernel: hfi1 0000:33:00.0: hfi1_0: do_pcie_gen3_transition: per-lane errors: 0x0</br>解答：不是错误，卡的信息，看有无错误状态的，正常信息White List : kernel: hfi1 0000:33:00.0: hfi1_0: do_pcie_gen3_transition: per-lane errors: 0x0Black List : 缺省</p><br><p>185. ERROR: ddf1: wrong # of devices in RAID set "ddf1_4c534920202020201000005d10009361471147110d85ef42" [1/2] on /dev/sdh</br>解答：确认该报错信息是硬盘上有RAID信息残留导致；重新格式化硬盘后，问题消失White List : 缺省Black List : RAID</p><br><p>186. sd 0:0:4:0: [sde] Add. Sense: Unrecovered read error</br>解答：硬盘单体问题，更换硬盘测试问题解决White List : 缺省Black List : sd 0:0:3:0: [sdd] Sense Key : Medium Error [current]</p><br><p>187. sd 0:0:3:0: [sdd] Sense Key : Medium Error [current]</br>解答：硬盘单体问题，更换硬盘测试问题解决White List : 缺省Black List : sd 0:0:3:0: [sdd] Sense Key : Medium Error [current]</p><br><p>188. segfault at 80 ip 0000000000401238 sp 00007fff8b1f4840 error 4 in lat_mem_rd[400000+16000]</br>解答：这是正常的现象:Linux有一个特性：OOM Killer，一个保护机制，用于避免在内存不足的时候不至于出现严重问题，把一些无关的进程优先杀掉，即在内存严重不足时，系统为了继续运转，内核会挑选一个进程，将其杀掉，以释放内存，缓解内存不足情况.OOM Killer把进程杀死了，就会在/var/log/messages日志文件中有Out of Memory: Killed process [PID] [process name]等报错信息.所以测试时报错是由于内存不足导致,更换大容量的内存，不再出现内存不足的情况下就不再有错误产生。White List : 缺省Black List : segfault at 80 ip 0000000000401238 sp 00007fff8b1f4840 error 4 in lat_mem_rd[400000+16000]</p><br><p>189. ata18: SError: { RecovComm Persist PHYRdyChg 10B8B }</br>解答：多平台均有此问题，OS行为，非平台单一问题，高版本OS（RHEL 8）不出现White List : 缺省Black List : ata18: exception Emask 0x10 SAct 0x0 SErr 0x90202 action 0xe frozen
+ata18: irq_stat 0x00400000, PHY RDY changed
+ata18: SError: { RecovComm Persist PHYRdyChg 10B8B }</p><br><p>190. ata18: irq_stat 0x00400000, PHY RDY changed</br>解答：多平台均有此问题，OS行为，非平台单一问题，高版本OS（RHEL 8）不出现White List : 缺省Black List : ata18: exception Emask 0x10 SAct 0x0 SErr 0x90202 action 0xe frozen
+ata18: irq_stat 0x00400000, PHY RDY changed
+ata18: SError: { RecovComm Persist PHYRdyChg 10B8B }</p><br><p>191. ata18: exception Emask 0x10 SAct 0x0 SErr 0x90202 action 0xe frozen
+ata18: irq_stat 0x00400000, PHY RDY changed
+ata18: SError: { RecovComm Persist PHYRdyChg 10B8B }</br>解答：多平台均有此问题，OS行为，非平台单一问题，高版本OS（RHEL 8）不出现White List : 缺省Black List : ata18: exception Emask 0x10 SAct 0x0 SErr 0x90202 action 0xe frozen
+ata18: irq_stat 0x00400000, PHY RDY changed
+ata18: SError: { RecovComm Persist PHYRdyChg 10B8B }</p><br><p>192. localhost kernel: hfi1 0000:5e:00.0: hfi1_0: QSFP not responding, giving up</br>解答：该问题为OPA卡问题，更新OPA卡的OptiomROM和TMM FW至最新该问题解决White List : 缺省Black List : hfi1 0000:5e:00.0: hfi1_0: i2c_bus_write: bus 0, i2c slave 0x50, offset 0x7f, len 0x1; write failed, ret -5</p><br><p>193. localhost kernel: hfi1 0000:5e:00.0: hfi1_0: port 1: QSFP chain 0 can't write QSFP_PAGE_SELECT_BYTE: -5</br>解答：该问题为OPA卡问题，更新OPA卡的OptiomROM和TMM FW至最新该问题解决White List : 缺省Black List : hfi1 0000:5e:00.0: hfi1_0: i2c_bus_write: bus 0, i2c slave 0x50, offset 0x7f, len 0x1; write failed, ret -5</p><br><p>194. localhost kernel: hfi1 0000:5e:00.0: hfi1_0: i2c_bus_write: bus 0, i2c slave 0x50, offset 0x7f, len 0x1; write failed, ret -5</br>解答：该问题为OPA卡问题，更新OPA卡的OptiomROM和TMM FW至最新该问题解决White List : 缺省Black List : hfi1 0000:5e:00.0: hfi1_0: i2c_bus_write: bus 0, i2c slave 0x50, offset 0x7f, len 0x1; write failed, ret -5</p><br><p>195. hfi1 0000:5e:00.0: hfi1_0: i2c_bus_write: bus 0, i2c slave 0x50</br>解答：该问题为OPA卡问题，更新OPA卡的OptiomROM和TMM FW至最新该问题解决White List : 缺省Black List : hfi1 0000:5e:00.0: hfi1_0: i2c_bus_write: bus 0, i2c slave 0x50, offset 0x7f, len 0x1; write failed, ret -5</p><br><p>196. ib_srpt srpt_add_one(i40iw0) failed</br>解答：查看i40iw驱动是X722的驱动，主要用于支持RDMA功能（基于infiniband协议），更新FW解决
+# modinfo i40iw
+#rmmod i40iw，
+发现i40iw驱动没有加载，然后加载驱动
+# modprobe i40iwWhite List : 缺省Black List : ib_srpt srpt_add_one(i40iw0) failed</p><br><p>197. fm0_sm[2263]: WARN [sm_dbsync]: SM: dbsync_procReqQ: failed to sync file with SM at portGuid 0x0011750101747831, LID=[0x2]</br>解答：This is an error returned whenever the master OPA FM was unable to read a file into memory in order to send it to other slave OPA FM nodes.White List : 缺省Black List : 缺省</p><br><p>198. ACPI Error: Method parse/execution failed [\_SB_.PC00.XHCI.XOSP] (Node ffff947d6ef6d118), AE_ALREADY_EXISTS (20130517/psparse-536)</br>解答：该问题对系统运行和稳定没有影响，RHEL7.6系统ACPI访问方式问题，报错后系统自身已经更改访问方式。White List : ACPI ErrorBlack List : 缺省</p><br><p>199. ACPI Error: [XMEM] Namespace lookup failure, AE_ALREADY_EXISTS (20130517/dswload2-330)</br>解答：该问题对系统运行和稳定没有影响，RHEL7.6系统ACPI访问方式问题，报错后系统自身已经更改访问方式。White List : ACPI ErrorBlack List : 缺省</p><br><p>200. sd 16:0:0:0: [sdd] Synchronize Cache(10) failed: Result: hostbyte=DID_NO_CONNECT driverbyte=DRIVER_OK</br>解答：该问题是由于8639背板搭配SATA/SAS硬盘导致pcie root port上检测不到设备，因此才报“link training error”，搭配NVME硬盘时无该报错，因此是正常现象White List : link trainingBlack List : 缺省</p><br><p>201. usbhid: probe of 1-1:1.1 failed with error -71
+sd 16:0:0:0: [sdd] Synchronize Cache(10) failed: Result: hostbyte=DID_NO_CONNECT driverbyte=DRIVER_OK</br>解答：该问题是由于8639背板搭配SATA/SAS硬盘导致pcie root port上检测不到设备，因此才报“link training error”，搭配NVME硬盘时无该报错，因此是正常现象White List : link trainingBlack List : 缺省</p><br><p>202. pciehp 0000:17:03.0:pcie04: Failed to check link status
+usbhid: probe of 1-1:1.1 failed with error -71
+sd 16:0:0:0: [sdd] Synchronize Cache(10) failed: Result: hostbyte=DID_NO_CONNECT driverbyte=DRIVER_OK</br>解答：该问题是由于8639背板搭配SATA/SAS硬盘导致pcie root port上检测不到设备，因此才报“link training error”，搭配NVME硬盘时无该报错，因此是正常现象White List : link trainingBlack List : 缺省</p><br><p>203. localhost kernel: pciehp 0000:17:03.0:pcie04: link training error: status 0x1001</br>解答：该问题是由于8639背板搭配SATA/SAS硬盘导致pcie root port上检测不到设备，因此才报“link training error”，搭配NVME硬盘时无该报错，因此是正常现象White List : link trainingBlack List : 缺省</p><br><p>204. Adapter does not support HW error recovery</br>解答：经厂商确认该卡本身的不支持此功能。该报错是正常的White List : Adapter does not support HW error recoveryBlack List : 缺省</p><br><p>205. Got potentially spurious smartcard event error: ffffe098</br>解答：可以确认这种日志是gnome 打出的，该报错不影响使用White List : Got potentially spurious smartcard event error: ffffe098Black List : 缺省</p><br><p>206. hardware_error_devices PNP0C33:00: hash matches</br>解答：不是硬件报错，它只是ACPI Hardware Error Device(PNP0C33)的驱动信息。这个驱动程序支持硬件错误设备(PNP0C33)，它用于报告通过SCI通知的一些硬件错误，主要是由配置ACPI_HED启用的更正错误White List : hardware_error_devices PNP0C33:00: hash matchesBlack List : 缺省</p><br><p>207. node1 systemd-modules-load: Failed to find module 'opa_vnic'</br>解答：将/etc/rdma/modules/opa.conf文件中opa_vnic参数注释掉，该问题解决White List : 缺省Black List : node1 systemd-modules-load: Failed to find module 'opa_vnic'</p><br><p>208. node1 kernel: rdmavt: module verification failed: signature and/or required key missing - tainting kernel</br>解答：将/etc/rdma/modules/opa.conf文件中opa_vnic参数注释掉，该问题解决White List : 缺省Black List : node1 systemd-modules-load: Failed to find module 'opa_vnic'</p><br><p>209. Package temperature above threshold,cpu clock throttled (total events = 213152)</br>解答：该现象为linpack过程中（尤其针对AVX-512），CPU瞬间压力上升而导致的温度瞬间超温而出现的报警保护，此现象intel认定为linkpak压力下的正常可接受先现象，不会影响CPU性能以及寿命，针对此种温度报警，暂时还没有可以屏蔽的方式，后续平台的CPU会有方式屏蔽此种情形的超温logWhite List : 缺省Black List : Package temperature above threshold,cpu clock throttled</p><br><p>210. ACPI: XSDT 000000007ad2a0a8 000D4 (v01 AMD SPEEDWAY 03242016 AMI 00010013)</br>解答：BIOS移植没有做彻底，需要将BIOS对应的ACPI代码中所有* .asi，* .asl中包含的AMD字样改掉，海光7.4版本的内核已经做出了修改，添加到了内核patch中White List : 缺省Black List : ACPI: XSDT 000000007ad2a0a8 000D4 (v01 AMD SPEEDWAY 03242016 AMI 00010013)</p><br><p>211. pcilib:sysfs_read_vpd:read failed:input/output error</br>解答：该报错为OS尝试读取PCIE设备的VPD信息时失败导致的，对系统稳定运行和客户使用不会造成影响White List : pcilib:sysfs_read_vpd:read failed:input/output errorBlack List : 缺省</p><br><p>212. Unable to determine the device handle for gpu 0000:DC:00.0: The NVIDIA kernel module detected an issue with GPU interrupts.Consult the "Common Problems" Chapter of the NVIDIA Driver README for details and steps that can be taken to resolve this issue。</br>解答：1、安装完驱动后重启OS，保证驱动正常运行
+2、建议在kernel启动参数 “irqpoll”White List : 缺省Black List : Unable to determine the device handle for gpu 0000:DC:00.0: The NVIDIA kernel module detected an issue with GPU interrupts.</p><br><p>213. “hfi1 0000:71:00.0: hfi1_0: do_pcie_gen3_transition: per-lane errors: 0x0</br>解答：hfi1 0000:71:00.0: hfi1_0: do_pcie_gen3_transition: per-lane errors: 0x0”信息中的per-lane errors是指Lane Error Status Register,并不是报错信息. 这个寄存器每个位表示对应的Lane是否检测到的错误,值为1表示在相应的lane上检测到错误.默认值是0. log中的值是0,说明没有错误.之前的BIOS没有此信息，是因为之前BIOS OPA卡设的Gen2,OS不会执行do_pcie_gen3_transition.White List : “hfi1 0000:71:00.0: hfi1_0: do_pcie_gen3_transition: per-lane errors: 0x0Black List : 缺省</p><br><p>214. localhost kernel: mlx_compat: module verification failed: signature and/or required key missing - tainting kernel</br>解答：该日志Mellanox已做说明，无法彻底消除，这是由底层架构决定的。且该日志对客户对IB卡的使用无任何影响White List : mlx_compat: module verification failed: signature and/or required key missing - tainting kernelBlack List : 缺省</p><br><p>215. localhost kernel: mlx_compat: loading out-of-tree module taints kernel.</br>解答：该日志Mellanox已做说明，无法彻底消除，这是由底层架构决定的。且该日志对客户对IB卡的使用无任何影响White List : mlx_compat: module verification failed: signature and/or required key missing - tainting kernelBlack List : 缺省</p><br><p>216. localhost kernel: Request for unknown module key 'Mellanox Technologies signing key: 61feb074fc7292f958419386ffdd9d5ca999e403' err -11</br>解答：该日志Mellanox已做说明，无法彻底消除，这是由底层架构决定的。且该日志对客户对IB卡的使用无任何影响White List : mlx_compat: module verification failed: signature and/or required key missing - tainting kernelBlack List : 缺省</p><br><p>217. usb usb2-port1: cannot disable (err = -32)
+xhci_hcd 0000:04:00.3: Cannot set link state.</br>解答：该问题是UAS驱动的兼容性导致的，将UAS改为usb-storage之后验证没有问题。
+1. lsusb查看转接器的ID，比如：2109:0711;
+2. 在/etc/modprobe.d/下创建ignore_uas.conf设置文件，内容为：
+options usb-storage quirks=2109:0711:u
+3. reboot重启
+对于类似usb报错，redhat给出的回复是可安全忽略White List : usb error
+xhci_hcd errorBlack List : 缺省</p><br><p>218. kernel: i40e 0000:5e:00.1: failed to get phy cap</br>解答：该报错与卡的固件版本相关，正常的X710固件版本为6.01White List : 缺省Black List : kernel: i40e 0000:5e:00.1: failed to get phy cap</p><br><p>219. error : virPCIGetHeaderType:3115 : internal error: Unknown PCI header type '127'</br>解答：根据 Bugzilla 信息，相关问题已在 kernel-3.10.0-957.el7 （RHEL7.6的内核版本）或更高版本内核中解决（已验证RHEL 7.6无此问题出现）White List : 缺省Black List : error : virPCIGetHeaderType:3115 : internal error: Unknown PCI header type '127'</p><br><p>220. mlx5_0: failed to create QPib_srpt srpt_add_one(mlx5_0) failed.</br>解答：系统下无Mellanox 网卡驱动导致出现此报错，官网下载最新Mellanox网卡驱动更新即可White List : 缺省Black List : mlx5_0: failed to create QPib_srpt srpt_add_one(mlx5_0) failed.</p><br><p>221. mcelog: failed to prefill DIMM database from DMI data</br>解答：这是一个无害的警告信息
+This is a harmless warning message. The DIMM database prefill relies on a specific non-standard format of the DIMMs in the DMI BIOS tables. If this format is not used by the BIOS, mcelog will only discover DIMMs as they get their first error (if the CPU reports DIMMs in machine check errors). Please understand for the most part, mcelog should be ignored.White List : mcelog: failed to prefill DIMM database from DMI dataBlack List : 缺省</p><br><p>222. nfit ACPI0012:00: nmem0 flags: flush_fail</br>解答：intel回复说这个是acpi的正常行为，不是报错。原文如下：after debugging linux kernel parse ACPI NFIT table to get this bit, you can refer to ACPI spec for detailed information, in a short word that if this bit set it means last power state is dirty state, just like ac removed.this is normal behavior defined by ACPI specWhite List : 缺省Black List : nfit ACPI0012:00: nmem0 flags: flush_fail</p><br><p>223. [sda] Failed to get completion for aborted cmd ffff88022dfad7c0
+aborting cmd failed:ffff88022dfad7c0</br>解答：日志中出现以下错误表明，发给VMware虚拟磁盘的SCSI，IO命令sda在超时后无法完成，因此触发了错误处理线程。作为错误处理过程的一部分，驱动程序首先尝试中止超时的命令，从而导致aborting cmd错误：通过以下内核更新针对RHEL 6.x和7.x版本发布了此错误的修复程序：
+RHEL 6.9 内核-2.6.32-696.el6
+RHEL 7.4 内核-3.10 .0-693.el7White List : 缺省Black List : aborting cmd failed:ffff88022dfad7c0</p><br><p>224. kernel: Queued invalidation will be enabled to support x2apic and Intr-remapping.
+kernel: Your BIOS is broken and requested that x2apic be disabled.#012This will slightly decrease performance.#012Use 'intremap=no_x2apic
+_optout' to override BIOS request.
+kernel: Enabled IRQ remapping in xapic mode
+x2apic not enabled, IRQ remapping init failed.</br>解答：这是一条信息性消息，并不表示存在问题，只是不使用x2apic，可以将参数（nox2apic）添加到/boot/grub/grub.conf文件中，并使用修改后的参数重启进入内核版本可解决该报错。
+需要启用xapi，禁用x2api。White List : x2apic not enabledBlack List : 缺省</p><br><p>225. localhost kernel: [drm:drm_edid_block_valid [drm]] *ERROR* EDID checksum is invalid, remainder is 54</br>解答：视频模式设置已移入内核。这意味着对硬件特定的时钟速率和视频卡上的寄存器的编程在内核中进行，而不是在X Windows系统启动时进行。在某些卡上，这无法正常工作。添加nomodeset参数指示内核在引导过程中使用BIOS视频模式，并在X Windows系统启动时加载视频驱动程序。
+通过执行以下步骤可解决：
+1、/etc/default/grub中增加GRUB_CMDLINE_LINUX="console=ttyS0,115200n8 console=tty0 nomodeset"并删除rhgb quiet；
+2、输入“grub2-mkconfig -o /boot/grub2/grub.cfg”命令
+3、reboot,重启OSWhite List : 缺省Black List : EDID checksum is invalid</p><br><p>226. kdumpctl: cat: write error: Broken pipe</br>解答：该消息将是无害的。内核崩溃时检查kdump服务是否可以保存vmcore文件。当kdumpctl执行mkdumprd为崩溃内核执行（重新）构建initramfs映像时，将输出该消息。White List : kdumpctl: cat: write error: Broken pipeBlack List : 缺省</p><br><p>227. loading out-of-tree module taints kernel.</br>解答：该问题是由于打了第三方模块QAT驱动程序，该驱动程序不被RHEL认证，导致Linux内核被污染。可移除该模块后，不会出现该报错。也可以手动签名模块，要手动签名模块，请使用以下工具中提供的脚本/签名文件工具Linux内核源代码树。该脚本需要4个参数：
+1.哈希算法（例如sha256）2.私钥文件名或PKCS＃11 URI
+3.公用密钥文件名
+4.要签名的内核模块
+以下是签名内核模块的示例：
+scripts / sign-file sha512 kernel-signkey.priv \
+kernel-signkey.x509 module.ko
+生成密钥并签名模块的步骤。
+https://unix.stackexchange.com/questions/74022/sign-a-module-after-kernel-compilation [ ^ ]White List : 缺省Black List : loading out-of-tree module taints kernel.</p><br><p>228. xhci_hcd 0000:00:14.0: Setup ERROR: setup context command for slot 3.</br>解答：该问题是机台在使用intel_iommu时偶尔会在插拔USB设备时出现系统hang住的问题。
+解决方案：
+重启后在菜单选择的时候按e修改参数，将intel_iommu=on amd_iommu=on中的on改为off，进入系统之后再修改grub.conf文件，修改内容与前面一致。White List : 缺省Black List : 缺省</p><br><p>229. ACPI _SDD failed (AE 0x5)</br>解答：系统libata内核错误无法获取ATA ACPI信息
+升级kernel到2.6.32-573.el6或更高版本以解决此问题。White List : 缺省Black List : ACPI _SDD failed (AE 0x5)</p><br><p>230. virbr0: starting userspace STP failed, starting kernel STP</br>解答：此错误消息无害。内核正在尝试将用户空间派生到exec / sbin / bridge-stp，但是RHEL尚未打包它或任何其他rstp用户空间实现。这将导致exec失败，内核退回到完全能够处理STP的内核实现中。White List : virbr0: starting userspace STP failed, starting kernel STPBlack List : 缺省</p><br><p>231. hardware_error_devices PNP0C33:00: hash matches</br>解答：这不是硬件问题，而是ACPI硬件错误设备（PNP0C33）驱动程序信息，该驱动程序支持硬件错误设备（PNP0C33），该硬件错误设备用于报告通过SCI通知的某些硬件错误。White List : hardware_error_devices PNP0C33:00: hash matchesBlack List : 缺省</p><br><p>232. BAR 13: failed to assign [io size 0x1000]</br>解答：BAR13对应brideg的IO base/limit,从purley这一代起，每个CPU有6个stack，并且这些stack平分64k IO space,导致IO资源分配不足，目前的配置是每个stack单元最多分配4K IO资源，每个Stack IIO包含4个root port，BAR13为NVME port且支持hotplug，当port hotplug打开后，bios会为每个root port预留一些资源，包括为每个root port分配至少4K IO资源，当前BAR13已经没有IO资源可用会导致报error信息；NVME ssd不需要IO空间资源，只需要Memory空间资源，即使不分配IO资源给上游bridge，也不会影响NVME ssd正常工作White List : BAR 13: failed to assign [io size 0x1000]Black List : 缺省</p><br><p>233. Error parsing PCC subspaces from PCCT</br>解答：该报错不影响系统使用，可忽略
+读取PCCT（平台通信通道表）的acpi_pcc_probe（）假定唯一有效的PCCT是包含以下两种类型之一的子表的PCCT：ACPI_PCCT_TYPE_HW_REDUCED_SUBSPACE或ACPI_PCCT_TYPE_HW_REDUCED_TYPE2；当找不到这些类型的子表时，无论是否存在任何其他子表类型，都将报告上述错误。
+https://access.redhat.com/solutions/3434581White List : Error parsing PCC subspaces from PCCTBlack List : 缺省</p><br><p>234. ioapic: probe of 0000:failed with error -22</br>解答：此警告是由ioapic code迁移到device code引起的,无害，可安全忽略White List : ioapicBlack List : 缺省</p><br><p>235. microcode：failed to load file amd-ucode/microcode_amd_fam17h.bin</br>解答：microcode”报错，由于硬件(处理器)太新，系统kernel不能完全调用新处理器的微指令集，可以忽略，验证RHEL7.4系统不会出现此报错White List : microcode：failed to load file amd-ucode/microcode_amd_fam17h.binBlack List : 缺省</p><br><p>236. kernel: Fast TSC calibration failed</br>解答：内核可以将CPU上的TSC用作快速的“时间源”。此消息表示由于某种原因校准失败。如果出现此消息，系统将通过其他方式完成校准。可以安全地忽略此消息White List : Fast TSC calibration failedBlack List : 缺省</p><br><p>237. ACPI Error: Gpe0Block - 32-bit FADT register is too long (32 bytes, 256 bits) to convert to GAS struct - 255 bits max, truncating (20130517/tbfadt-202)</br>解答：This ACPI error is harmless and just a cosmetic issue
+OS更新到kernel3.16之后不再有这个错误信息。White List : ACPI Error: Gpe0Block - 32-bit FADT register is too long (32 bytes, 256 bits) to convert to GAS struct - 255 bits max, truncating (20130517/tbfadt-202)Black List : 缺省</p><br><p>238. rngd: Failed to init entropy source 1: TPM RNG Device</br>解答：这个报错信息是正常的，当没有Hardware RNG检测到的时候会报出。并且可以通过-q参数来屏蔽这个报错信息。具体步骤如下：
+1.安装最新的rng-tools:rng-tools-6.3.1-2.el7.x86_64.rpm
+2、更新/etc/systemd/system/multi-user.target.wants/rngd.service文件将 “ExecStart=/sbin/rngd -f” 改成 “ExecStart=/sbin/rngd -q”
+3、重新加载配置#systemctl daemon-reload
+4、重启服务器，查看报错信息。White List : rngd: Failed to init entropy source 1Black List : 缺省</p><br><p>239. rngd: Failed to init entropy source 0: Hardware RNG Device</br>解答：这个报错信息是正常的，当没有Hardware RNG检测到的时候会报出。并且可以通过-q参数来屏蔽这个报错信息。具体步骤如下：
+1.安装最新的rng-tools:rng-tools-6.3.1-2.el7.x86_64.rpm
+2、更新/etc/systemd/system/multi-user.target.wants/rngd.service文件将 “ExecStart=/sbin/rngd -f” 改成 “ExecStart=/sbin/rngd -q”
+3、重新加载配置#systemctl daemon-reload
+4、重启服务器，查看报错信息。White List : rngd: Failed to init entropy source 0Black List : 缺省</p><br><p>240. kernel: amifldrv_mod: module verification failed: signature and/or required key missing - tainting kernel</br>解答：Mellanox已作说明，无法彻底消除，这是由底层架构决定，该日志报错不影响客户对IB卡的使用。White List : tainting kernelBlack List : 缺省</p><br><p>241. gnome-settings-daemon: Fatal IO error 11 (Resource temporarily unavailable) on X server :0</br>解答：此问题为系统软件问题，与HW无关，不影响系统使用，Redhat的错误库里面有此错误的说明：https://bugzilla.redhat.com/show_bug.cgi?id=1301711
+
+https://access.redhat.com/solutions/151923White List : gnome-settings-daemon: Fatal IO error 11 (Resource temporarily unavailable) on X server :0Black List : 缺省</p><br><p>242. usb x-x: device descriptor read/64, error -110(error -71)</br>解答：主机USB端口为USB设备供电，如果主机上的USB端口未发送足够的功率（例如，主机上的USB 1.1和设备上所需的USB 2.0），则该设备将无法运行；-71错误可能表示协议故障，电源问题或IO错误之一，但通常这些问题是与电源有关的问题。White List : 缺省Black List : usb x-x: device descriptor read/64, error -110(error -71)</p><br><p>243. pci system error (SERR) for reason a0 on cpu 0</br>解答：报错时dmesg没有Parity error或IO check error等记录，对OS没有影响
+RHEL官网看到有类似问题的回复:kernel received a non-critical NMI but all registered handlers for it said"no, I don't care about that"White List : pci system error (SERR) for reason a0 on cpu 0Black List : 缺省</p><br><p>244. EXT4-fs error (device sda3): ext4_mb_generate_buddy:757: group 1968, block bitmap and bg descriptor inconsistent: 24534 vs 24530 free clusters</br>解答：文件系统损坏，通常是由存储硬件问题引起的，需要修复文件系统：
+1、执行e2image -r /dev/sda - | bzip2 > sda.e2i.bz2
+2、执行e2fsck -fp /dev/修复文件系统（若报错盘为系统盘，无法直接修复。需重新安装系统到另一块磁盘sdb上，然后在/dev/sdb系统下执行修复操作）
+3、手动执行fsck /dev/sda3，修复成功。White List : 缺省Black List : EXT4-fs error (device sda3): ext4_mb_generate_buddy:757: group 1968, block bitmap and bg descriptor inconsistent: 24534 vs 24530 free clusters</p><br><p>245. : module verification failed: signature and/or required key missing - tainting kernel</br>解答：在RHEL 7中，任何无法通过内核系统密钥环中的公共密钥进行身份验证的内核模块都会污染内核。这可能是因为模块未签名或找不到所需的公钥。即使模块已成功加载，也会生成这些消息。当使用由Red Hat以外的供应商提供的驱动程序模块时，这种消息是预期的，并不表示问题。White List : module verification failed: signature and/or required key missing - tainting kernelBlack List : 缺省</p><br><p>246. sda2: WRITE SAME failed. Manually zeroing.</br>解答：该消息是警告，表明物理存储设备报告支持WRITE_SAME命令，但尝试使用该命令失败。这通常是由设备内的错误或配置错误引起的。该消息无害。当WRITE_SAME失败时，内核将退回到其他替代方案。White List : sda2: WRITE SAME failed. Manually zeroingBlack List : 缺省</p><br>
